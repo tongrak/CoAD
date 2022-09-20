@@ -1,3 +1,5 @@
 public interface AssemblerInt {
-    void interpretAndSave(String [] pc);
+
+    // read and interet assembly file in fileAddress and store it in inObject.InstucMem.
+    void interpretAndSave(String fileAddress ,CompoterInt inObject);
 }
