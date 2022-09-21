@@ -1,4 +1,4 @@
 public interface MachineInt {
-    void simulate(CompoterInt inObt);
+    void simulate(ComputerInt inObt);
     // private printstate 
 }
