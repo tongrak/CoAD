@@ -5,5 +5,5 @@ public interface ComputerInt {
     public String getReg(int index);
     public int getPC();
 
-    public void setInstMem(int index, String binaryCode)
+    public void setInstMem(int index, String binaryCode);
 }
