@@ -9,6 +9,8 @@ public class ALU {
             res = add(a, b);
         else if(op.equals("sub"))
             res = sub(a,b);
+        else if(op.equals("nand"))
+            res = nand(a,b);
         return res;
     }
 
@@ -50,6 +52,23 @@ public class ALU {
         return res;
     }
 
+    private static String nand(String a,String b)
+    {
+        String res = "";
+        String b1 = String.valueOf('1');
+        String b0 = String.valueOf('0');
+        for (int i = a.length() - 1; i >= 0; i--)
+        {
+            char ai = a.charAt(i);
+            char bi = b.charAt(i);
+            if(ai == '1' && bi == '1')
+                res = b0+res;
+            else
+                res = b1+res;
+        }
+        return res;
+    }
+
     private static String two_complement(String a) {
         String res = add(not(a),"00000000000000000000000000000001");
         return res;
@@ -70,8 +89,8 @@ public class ALU {
     }
 
     public static void main(String[] args) {
-        String a = "00000000000000000000000000000001";
-        String b = "00000000000000000000000000000011";
-        System.out.println(sub(a, b));
+        String a = "00000000000000000000000000000000";
+        String b = "00000000000000000000000000000000";
+        System.out.println(nand("101","100"));
     }
 }
