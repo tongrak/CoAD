@@ -1,0 +1,5 @@
+A -> Head Body Tail
+Head -> Label Instr | Instr
+Body -> none | Reg Reg | Reg Reg Reg | Reg Reg Val
+Tail -> none | comment
+Val -> offset | symbolic
