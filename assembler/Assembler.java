@@ -1,4 +1,6 @@
+package assembler;
 
+import computer.ComputerInt;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 
+
 public class Assembler implements AssemblerInt {
 
     File file;
@@ -21,10 +24,12 @@ public class Assembler implements AssemblerInt {
 
     List<String[]> tokenAssem = new ArrayList<String[]>();
     Map <String, Integer> labelMap = new HashMap<String, Integer>();
+    List<String> intreResult = new ArrayList<String>();
 
+    public Assembler() {
+    }
 
-
-    // @Override
+    @Override
     public void interpretAndSave(String fileAddress, ComputerInt inObject) {
         init(fileAddress);
         readFile();
@@ -61,11 +66,13 @@ public class Assembler implements AssemblerInt {
         return simple;
     }
 
-    // ** Looping
+    // ** go throught tokenAssem and look for label. if label found add into labelMap.
     private void labelFinding(){
 
     }
 
+
+    // ** go throught tokenAssem and look for .fill function. if found replace labelMap of that key with new value. 
     private void fillFinding(){
 
     }

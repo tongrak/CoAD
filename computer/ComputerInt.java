@@ -1,3 +1,5 @@
+package computer;
+
 public interface ComputerInt {
     
     //get method
