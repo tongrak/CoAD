@@ -29,10 +29,24 @@ public class Assembler implements AssemblerInt {
     public Assembler() {
     }
 
+    // private void printTokenStip(){
+    //     for (String[] tokenS : tokenAssem) {
+    //         printEachToken(tokenS);
+    //         System.out.println("");
+    //     }
+    // }
+
+    // private void printEachToken(String[] tokenS){
+    //     for (String token : tokenS) {
+    //         System.out.print(token+" ");
+    //     }
+    // }
+
     @Override
     public void interpretAndSave(String fileAddress, ComputerInt inObject) {
         init(fileAddress);
         readFile();
+        // printTokenStip();
     }
      
     // *** Initialize file and br variable for other uses
@@ -46,12 +60,13 @@ public class Assembler implements AssemblerInt {
         }
     }
 
-    // *** Read every line in br and store it in rawAssem.
+    // *** Read every line in br and store it in tokenAssem.
     private void readFile(){
         String currLine;
         try {
             while ((currLine = br.readLine()) != null){
-                System.out.println(currLine);
+                // System.out.println(currLine);
+                tokenAssem.add(tokenizer(currLine));
             }
         } catch (IOException e) {
             System.out.println("Sometime went worng during file reading");
@@ -62,18 +77,18 @@ public class Assembler implements AssemblerInt {
 
     // *** Taken a line of assembly and break it down into tokens.
     private String[] tokenizer(String line){
-        String[] simple = {""};
-        return simple;
+        return line.trim().split("\\s+");
     }
 
-    // ** go throught tokenAssem and look for label. if label found add into labelMap.
+    // *** go throught tokenAssem and look for label. if label found add into labelMap.
     private void labelFinding(){
 
     }
 
-
-    // ** go throught tokenAssem and look for .fill function. if found replace labelMap of that key with new value. 
+    // *** go throught tokenAssem and look for .fill function. if found replace labelMap of that key with new value. 
     private void fillFinding(){
 
     }
+
+
 }
