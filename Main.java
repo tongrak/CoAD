@@ -9,7 +9,7 @@ public class Main {
   private Computer computer;
   public String fileDst;
 
-  public void initial(){
+  private void initial(){
     // AssemblerInt
     // MachineInt  
     assembler = new Assembler();
@@ -22,7 +22,7 @@ public class Main {
     assembler.interpretAndSave(fileDst, computer);
 
     while(!computer.getEnd()){
-
+      // machine.simulate(computer);
     }
   }
     public static void main(String[] args) {
