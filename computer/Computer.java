@@ -5,24 +5,16 @@ import java.util.ArrayList;
 public class Computer implements ComputerInt{
     private Boolean end = false;
     private int PC = 0;
-    private ArrayList<String> instMem;
-    private String[] mem;
+    private ArrayList<String> mem;
     private String[] reg;
 
     public Computer(){
-        mem = new String[10];
-        reg = new String[8];
-        instMem = new ArrayList<String>();
-    }
-
-    @Override
-    public String getInstMem(int index) {
-        return instMem.get(index);
+        mem = new ArrayList<String>();
     }
 
     @Override
     public String getMem(int index) {
-        return mem[index];
+        return mem.get(index);
     }
 
     @Override
@@ -41,13 +33,8 @@ public class Computer implements ComputerInt{
     }
 
     @Override
-    public void setInstMem(int index, String binaryCode) {
-        instMem.set(index, binaryCode);   
-    }
-
-    @Override
     public void setMem(int index, String binaryCode) {
-        mem[index] = binaryCode;        
+        mem.set(index, binaryCode);        
     }
 
     @Override
