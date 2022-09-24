@@ -8,12 +8,6 @@ import java.util.Map;
 // Tail -> none | comment
 // Val -> offset | symbolic
 public class AssemblyParser {
-    
-    Map <String, Integer> labelMap;
-
-    public AssemblyParser(Map<String, Integer> labelMap) {
-        this.labelMap = labelMap;
-    }
 
     public AssemblyParser() {
         // this.labelMap = labelMap;
