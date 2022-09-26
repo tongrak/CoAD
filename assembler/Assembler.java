@@ -7,7 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
+// import java.io.BufferedWriter;
 
 
 import java.util.ArrayList;
@@ -66,7 +66,7 @@ public class Assembler implements AssemblerInt {
             removeComment();
             convertSymbolic();            
         } catch (Exception e) {
-            System.err.println("exit(1)");
+            System.err.println("exit(1): " + e);
         }
         gettingBiStringConv();
         settingToReturn(inObject);
@@ -157,14 +157,30 @@ public class Assembler implements AssemblerInt {
      * @return is Given String is valid label
      */
     private Boolean isValidLabel(String str){
-        return !isInstr(str) && (str.chars().count() <= 6);
+        Boolean firstCharCheck = !stringIsNum(String.valueOf(str.charAt(0)));
+        Boolean containSpecial = stringContainSpecial(str);
+        return !isInstr(str) && (str.chars().count() <= 6) && firstCharCheck && !containSpecial;
+    }
+
+    /**
+     * @param str
+     * @return
+     */
+    private Boolean stringContainSpecial(String str){
+        String specialCharactersString = "!@#$%&*()'+,-./:;<=>?[]^_`{|}";
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if(specialCharactersString.contains(Character.toString(c))) return true;
+        }
+        return false;
     }
 
     /**go throught tokenAssem and look for label. if label found add into labelMap.
      * 
      * @throws DuplicateLabelException
+     * @throws InvalidLabel
      */
-    private void labelFindiNRemove() throws DuplicateLabelException{
+    private void labelFindiNRemove() throws DuplicateLabelException, InvalidLabel{
         int addressNum = 0;
         for (String[] tokens : tokenAssem) {
             if(isValidLabel(tokens[0])) {
@@ -172,8 +188,7 @@ public class Assembler implements AssemblerInt {
                     labelMap.put(tokens[0], addressNum);
                     removeLabel(tokens);
                 }else throw new DuplicateLabelException();
-                
-            }
+            }else throw new InvalidLabel();
             addressNum++;
         }
     }
