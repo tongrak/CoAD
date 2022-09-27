@@ -68,10 +68,11 @@ public class Assembler implements AssemblerInt {
             offsetAndValChecking();
         } catch (Exception e) {
             System.err.println("exit(1): " + e);
+            return;
         }
         gettingBiStringConv();
         settingToReturn(inObject);
-        System.out.println("exist (0): Process with caution");
+        System.out.println("exist(0): Process with caution");
 
         // printTokenStip();
         // System.out.println("=============After finding and removing label=============");
@@ -190,8 +191,7 @@ public class Assembler implements AssemblerInt {
                     labelMap.put(tokens[0], addressNum);
                     removeLabel(tokens);
                 }else throw new DuplicateLabelException(tokens[0]+" is ready declare as label");
-            }
-            // else throw new InvalidLabel(tokens[0]+" is not valid label");
+            }else if(stringContainSpecial(tokens[0])) throw new InvalidLabel(tokens[0]+" is not valid label");
             addressNum++;
         }
     }
@@ -213,16 +213,10 @@ public class Assembler implements AssemblerInt {
      */
     private String[] removeEleFrom(String[] tokens, int fieldCount) throws InvalidInstruction{
         List<String> result = new ArrayList<>();
-        try {
             for (int i = 0; i < fieldCount+1; i++) {
                 result.add(tokens[i]);
             }
             return result.toArray(new String[fieldCount+1]);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new InvalidInstruction("None enough field as required");
-        }
-
-        
     }
 
     /** Remove comment in every instructions 
@@ -233,25 +227,32 @@ public class Assembler implements AssemblerInt {
         List<String[]> newTokensAssem = new ArrayList<>();
         for (String[] tokens : tokenAssem) {
             String instr = tokens[0];
-            switch (getInstrType(instr)) {
-                case "R":
-                    newTokensAssem.add(removeEleFrom(tokens, 3));
-                    break;
-                case "I":
-                    newTokensAssem.add(removeEleFrom(tokens, 3));
-                    break;
-                case "J":
-                    newTokensAssem.add(removeEleFrom(tokens, 2));
-                    break;
-                case "O":
-                    newTokensAssem.add(removeEleFrom(tokens, 0));
-                    break;
-                case "S":
-                    newTokensAssem.add(removeEleFrom(tokens, 1));
-                    break;
-                default:
-                    throw new InvalidInstruction("Intruction have no format");
+            try {
+                switch (getInstrType(instr)) {
+                    case "R":
+                        newTokensAssem.add(removeEleFrom(tokens, 3));
+                        break;
+                    case "I":
+                        newTokensAssem.add(removeEleFrom(tokens, 3));
+                        break;
+                    case "J":
+                        newTokensAssem.add(removeEleFrom(tokens, 2));
+                        break;
+                    case "O":
+                        newTokensAssem.add(removeEleFrom(tokens, 0));
+                        break;
+                    case "S":
+                        newTokensAssem.add(removeEleFrom(tokens, 1));
+                        break;
+                    default:
+                        throw new InvalidInstruction("Unknown Instruction: " + instr);
+                }
+            }catch (ArrayIndexOutOfBoundsException e) {
+                String line = "";
+                for (String str : tokens) {line+=(str+" ");}
+                throw new InvalidInstruction("None enough field as required: " + line);
             }
+            
         }
         tokenAssem = newTokensAssem;
     }
@@ -289,7 +290,7 @@ public class Assembler implements AssemblerInt {
                     if(labelMap.containsKey(tokens[3])){
                         String[] temp = {tokens[0],tokens[1],tokens[2],labelMap.get(tokens[3]).toString()};
                         newTokensAssem.add(temp);
-                    }else throw new UnknownLabel();
+                    }else throw new UnknownLabel(tokens[3] + "is not a label");
                 }
             }else if (isXTypeInstr(specialKey, instr)){
                 if (stringIsNum(tokens[1])) newTokensAssem.add(tokens);
@@ -297,7 +298,7 @@ public class Assembler implements AssemblerInt {
                     if(labelMap.containsKey(tokens[1])){
                         String[] temp = {tokens[0], labelMap.get(tokens[1]).toString()};
                     newTokensAssem.add(temp);
-                    }else throw new UnknownLabel();
+                    }else throw new UnknownLabel(tokens[1] + "is not a label");
                 }
             }else newTokensAssem.add(tokens);
         }
