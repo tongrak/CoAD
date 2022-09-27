@@ -190,7 +190,8 @@ public class Assembler implements AssemblerInt {
                     labelMap.put(tokens[0], addressNum);
                     removeLabel(tokens);
                 }else throw new DuplicateLabelException(tokens[0]+" is ready declare as label");
-            }else throw new InvalidLabel(tokens[0]+" is not valid label");
+            }
+            // else throw new InvalidLabel(tokens[0]+" is not valid label");
             addressNum++;
         }
     }
@@ -318,7 +319,8 @@ public class Assembler implements AssemblerInt {
      */
     private void settingToReturn(ComputerInt com){
         for (int i = 0; i < finalResult.size(); i++) {
-            com.setMem(i, finalResult.get(i));
+            // com.setMem(i, finalResult.get(i));
+            com.addMem(finalResult.get(i));
         }
     }
 
