@@ -100,8 +100,8 @@ public class AssemblyParser {
         //  System.out.println("rs1: " + rs1);
         //  System.out.println("rs2: " + rs2);
         //  System.out.println("bin32.length(): " + binary.length());
-         System.out.println("intruction(bin): " + binary);
-         System.out.println("intruction(hex): " + "0x" + hexadecimal);
+        //  System.out.println("intruction(bin): " + binary);
+        //  System.out.println("intruction(hex): " + "0x" + hexadecimal);
         return binary;
     }
 
@@ -157,8 +157,8 @@ public class AssemblyParser {
         //  System.out.println("rs1: " + rs1);
         //  System.out.println("rs2: " + rs2);
         //  System.out.println("bin32.length(): " + binary.length());
-         System.out.println("intruction(bin): " + binary);
-         System.out.println("intruction(hex): " + "0x" + hexadecimal);
+        //  System.out.println("intruction(bin): " + binary);
+        //  System.out.println("intruction(hex): " + "0x" + hexadecimal);
         return binary;
     }
 
@@ -199,8 +199,8 @@ public class AssemblyParser {
         //  System.out.println("rs1: " + rs1);
         //  System.out.println("rs2: " + rs2);
         //  System.out.println("bin32.length(): " + binary.length());
-         System.out.println("intruction(bin): " + binary);
-         System.out.println("intruction(hex): " + "0x" + hexadecimal);
+        //  System.out.println("intruction(bin): " + binary);
+        //  System.out.println("intruction(hex): " + "0x" + hexadecimal);
         return binary;
     }
    
@@ -232,8 +232,8 @@ public class AssemblyParser {
 
          // for check
         //  System.out.println("bin32.length(): " + binary.length());
-         System.out.println("intruction(bin): " + binary);
-         System.out.println("intruction(hex): " + "0x" + hexadecimal);
+        //  System.out.println("intruction(bin): " + binary);
+        //  System.out.println("intruction(hex): " + "0x" + hexadecimal);
         return binary;
     }
 
@@ -267,8 +267,8 @@ public class AssemblyParser {
         }
          // for check
         //  System.out.println("bin32.length(): " + binary.length());
-         System.out.println("intruction(bin): " + binary);
-         System.out.println("intruction(hex): " + "0x" + hexadecimal);
+        //  System.out.println("intruction(bin): " + binary);
+        //  System.out.println("intruction(hex): " + "0x" + hexadecimal);
         return binary;
     }
 }
