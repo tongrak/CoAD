@@ -1,5 +1,7 @@
 package computer;
 
+import java.util.List;
+
 public interface ComputerInt {
     
     //get method
@@ -7,10 +9,12 @@ public interface ComputerInt {
     public String getReg(int index);
     public int getPC();
     public Boolean getEnd();
+    public int getMemLen();
 
     //set method
     public void setMem(int index, String binaryCode);
     public void setReg(int index, String binaryCode);
     public void setPC(int index);
     public void setEnd(Boolean boolVal);
+    public void addMem(String binaryCode);
 }
