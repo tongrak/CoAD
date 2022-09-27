@@ -64,12 +64,14 @@ public class Assembler implements AssemblerInt {
             readFile();
             labelFindiNRemove();
             removeComment();
-            convertSymbolic();            
+            convertSymbolic();
+            offsetAndValChecking();
         } catch (Exception e) {
             System.err.println("exit(1): " + e);
         }
         gettingBiStringConv();
         settingToReturn(inObject);
+        System.out.println("exist (0): Process with caution");
 
         // printTokenStip();
         // System.out.println("=============After finding and removing label=============");
@@ -187,8 +189,8 @@ public class Assembler implements AssemblerInt {
                 if(!labelMap.containsKey(tokens[0])){
                     labelMap.put(tokens[0], addressNum);
                     removeLabel(tokens);
-                }else throw new DuplicateLabelException();
-            }else throw new InvalidLabel();
+                }else throw new DuplicateLabelException(tokens[0]+" is ready declare as label");
+            }else throw new InvalidLabel(tokens[0]+" is not valid label");
             addressNum++;
         }
     }
@@ -268,6 +270,10 @@ public class Assembler implements AssemblerInt {
         }
     }
 
+    private int stringToNum(String str){
+        return Integer.parseInt(str);
+    }
+
     /** Convert all symbolic for it value
      * 
      * @throws UnknownLabel
@@ -315,5 +321,39 @@ public class Assembler implements AssemblerInt {
             com.setMem(i, finalResult.get(i));
         }
     }
+
+    /** Checking if offsets from given assembly is valid or not
+     * @throws InvalidValueUsesException
+     * 
+     */
+    private void offsetAndValChecking() throws InvalidValueUsesException{
+        for (String[] tokens : tokenAssem) {
+            switch (getInstrType(tokens[0])) {
+                case "I":
+                    String offStr = tokens[3];
+                    if (stringIsNum(offStr)){
+                        int offset = stringToNum(offStr);
+                        if(!isValidOffSet(offset))throw new InvalidValueUsesException(offStr+" is not valid offset");
+                    }
+                    break;
+                case "S":
+                    String valStr = tokens[1];
+                    if (stringIsNum(valStr)){
+                        int val = stringToNum(valStr);
+                        if(!isValidVal(val))throw new InvalidValueUsesException(valStr+" is not valid value");
+                    }
+                    break;
+            }
+        }
+    }
+
+    private Boolean isValidOffSet(int offset){
+        return offset <= 32767 && offset >= -32768;
+    }
+
+    private Boolean isValidVal(int val){
+        return val <= 65535 && val >= -65536;
+    }
+
 
 }
