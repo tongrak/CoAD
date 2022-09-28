@@ -1,5 +1,7 @@
 package machine;
 
+import aux_use.ALU;
+import aux_use.Helper;
 import computer.ComputerInt;
 
 // import aux_use.ALU;
@@ -26,12 +28,16 @@ public class Machine {
 
         if(! rd.equals("000"))
         {
+            String rs1 = com.getReg(Helper.binToInt(rs));
+            String rs2 = com.getReg(Helper.binToInt(rt));
+            String res = "";
+            String op = "";
             if(opcode.equals("000"))
-            {
-                String rs1 = com.getReg(0);
-                String rs2 = com.getReg(0);
-                com.setReg(0, "0000");
-            }
+                op = "add";
+            else
+                op = "nand";
+            res = ALU.operation(rs1, rs2, op);
+            com.setReg(Helper.binToInt(rd), res);
         }
     }
 
