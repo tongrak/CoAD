@@ -1,11 +1,12 @@
 package computer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Computer implements ComputerInt{
     private Boolean end = false;
     private int PC = 0;
-    private ArrayList<String> mem;
+    private List<String> mem;
     private String[] reg;
 
     public Computer(){
@@ -38,6 +39,11 @@ public class Computer implements ComputerInt{
     }
 
     @Override
+    public void addMem(String binaryCode){
+        mem.add(binaryCode);
+    }
+
+    @Override
     public void setReg(int index, String binaryCode) {
         reg[index] = binaryCode;
     }
@@ -50,6 +56,11 @@ public class Computer implements ComputerInt{
     @Override
     public void setEnd(Boolean boolVal) {
         end = boolVal;
+    }
+
+    @Override
+    public int getMemLen() {
+        return mem.size();
     }
 
 
