@@ -7,7 +7,7 @@ public class Main {
   private Assembler assembler;
   private Machine machine;
   private Computer computer;
-  public String fileDst;
+  private String fileDst;
 
   private void initial(){
     // AssemblerInt
