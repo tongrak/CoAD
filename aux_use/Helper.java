@@ -15,8 +15,12 @@ public class Helper {
     }
 
     public static String IntTobin(int inT) {
-
-        return "";
+        String res = Integer.toBinaryString(inT);
+        if(res.length() < 32)
+        {
+            res = "0"+res;
+        }
+        return ALU.signExtend(res);
     }
 
 }
