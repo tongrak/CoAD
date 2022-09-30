@@ -1,16 +1,43 @@
 package aux_use;
 
 public class ALU {
-    private static String zero;
-
     public static String operation(String a, String b, String op) {
         String res = "";
+        String A = signExtend(a);
+        String B = signExtend(b);
         if (op.equals("add"))
-            res = add(a, b);
+            res = add(A, B);
         else if(op.equals("sub"))
-            res = sub(a,b);
+            res = sub(A, B);
         else if(op.equals("nand"))
-            res = nand(a,b);
+            res = nand(A, B);
+        else if(op.equals("compare"))
+            res = compare(A, B);
+        return res;
+    }
+
+    public static String compare(String a,String b)
+    {
+        if(a.equals(b))
+            return "1";
+        return "0";
+    }
+    public static String signExtend(String a)
+    {
+        int l = a.length();
+        String res = a;
+        if(a.charAt(0) == '0')
+        {
+            for(int i=0;i<32-l;i++)
+            {
+                res = "0"+res;
+            }
+        }
+        else
+            for(int i=0;i<32-l;i++)
+            {
+                res = "1"+res;
+            }
         return res;
     }
 
@@ -89,8 +116,11 @@ public class ALU {
     }
 
     public static void main(String[] args) {
-        String a = "00000000000000000000000000000000";
-        String b = "00000000000000000000000000000000";
-        System.out.println(nand("101","100"));
+        String a = "010001";
+        String b = "10001";
+        System.out.println(operation(a, b, "add"));
+        System.out.println(Integer.toBinaryString(32767));
+        System.out.println(Helper.IntTobin(32767));
+        System.out.println(Helper.IntTobin(-32768));
     }
 }
