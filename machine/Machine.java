@@ -17,6 +17,8 @@ public class Machine {
         String opcode = inst.substring(7, 10);
         if (opcode.equals("000") || opcode.equals("001")) {
             RType(inst, opcode);
+        } else if (opcode.equals("010") || opcode.equals("011") || opcode.equals("100")) {
+            IType(inst,opcode);
         } else if (opcode.equals("101")) {
             JType(inst, opcode);
         } else {
@@ -31,25 +33,42 @@ public class Machine {
         String rd = instruction.substring(29, 32);
 
         if (!rd.equals("000")) {
-            String rs1 = com.getReg(Helper.binToInt(rs));
-            String rs2 = com.getReg(Helper.binToInt(rt));
+            String regA = com.getReg(Helper.binToInt(rs));
+            String regB = com.getReg(Helper.binToInt(rt));
             String res = "";
             String op = "";
             if (opcode.equals("000"))
                 op = "add";
             else
                 op = "nand";
-            res = ALU.operation(rs1, rs2, op);
+            res = ALU.operation(regA, regB, op);
             com.setReg(Helper.binToInt(rd), res);
         }
     }
 
-    public void IType(String instruction) {
-        String opcode = instruction.substring(7, 10);
+    public static void IType(String instruction,String opcode) {
         String rs = instruction.substring(10, 13);
         String rt = instruction.substring(13, 16);
         String offset = instruction.substring(16, 32);
-
+        String regA = com.getReg(Helper.binToInt(rs));
+        String regB = com.getReg(Helper.binToInt(rt));
+        String loc = ALU.operation("add", regA, offset);
+        if(opcode.equals("010") && !rt.equals("000"))
+        {
+            com.setReg(Helper.binToInt(rt), com.getMem(Helper.binToInt(loc)));
+        }
+        else if(opcode.equals("011"))
+        {
+            com.setMem(Helper.binToInt(loc),com.getReg(Helper.binToInt(rt)));
+        }
+        else if(opcode.equals("100"))
+        {
+            if(ALU.operation(regA, regB, "compare").equals("1"))
+            {
+                int offsetField = Helper.binToInt(offset);
+                com.setPC(com.getPC()+1+offsetField);
+            }
+        }
     }
 
     public static void JType(String instruction, String opcode) {
