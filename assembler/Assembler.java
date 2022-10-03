@@ -1,21 +1,20 @@
 package assembler;
-
+// * Storing Obj
 import computer.ComputerInt;
-
+// * IO obj/Function in Uses
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.BufferedReader;
-// import java.io.BufferedWriter;
-
-
+import java.io.BufferedWriter;
+// * Data Structure in Uses.
 import java.util.ArrayList;
-// import java.util.arr
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+// * Custom Exception
 import assembler.exception.DuplicateLabelException;
 import assembler.exception.InvalidInstructionException;
 import assembler.exception.InvalidLabelException;
@@ -27,7 +26,9 @@ import assembler.exception.UnknownLabelException;
 public class Assembler implements AssemblerInt {
 
     File file;
+    File macCodeFile = new File("C:\\Users\\DELL\\OneDrive - Chiang Mai University\\University File\\Year 65 (2022)\\1_65\\CPE304 [Sec001]\\Proj\\CoAD\\MachineCode\\CurrentMachineCode.txt");
     BufferedReader br;
+    BufferedWriter bw;
     AssemblyParser ap;
 
     private String[] instrRTypeKey ={"add", "nand"};
@@ -44,39 +45,21 @@ public class Assembler implements AssemblerInt {
     public Assembler() {
     }
 
-    // private void printTokenStip(){
-    //     for (String[] tokenS : tokenAssem) {
-    //         printEachToken(tokenS);
-    //         System.out.println("");
-    //     }
-    // }
-
-    // private void printEachToken(String[] tokenS){
-    //     for (String token : tokenS) {
-    //         System.out.print(token+" ");
-    //     }
-    // }
-
-    // private void printEachBiInstr(){
-    //     for (String string : finalResult) {
-    //         System.out.println(string);
-    //     }
-    // }
-
     @Override
     public void interpretAndSave(String fileAddress, ComputerInt inObject) {
         init(fileAddress);
         try {
-            readFile();
+            readFileNTokenize();
             labelFindiNRemove();
             removeComment();
             convertSymbolic();
             offsetAndValChecking();
+            gettingBiStringConv();
+            writeIntreResult();
         } catch (Exception e) {
             System.err.println("exit(1): " + e);
             return;
         }
-        gettingBiStringConv();
         settingToReturn(inObject);
         System.out.println("exist(0): Processd with caution");
     }
@@ -100,13 +83,27 @@ public class Assembler implements AssemblerInt {
      * @throws IOException
      *
      */
-    private void readFile() throws IOException{
+    private void readFileNTokenize() throws IOException{
         String currLine;
             while ((currLine = br.readLine()) != null){
                 // System.out.println(currLine);
                 tokenAssem.add(tokenizing(currLine));
             }
+    }
 
+    private void writeIntreResult() throws IOException{
+        bw = new BufferedWriter(new FileWriter(macCodeFile));
+        for (int i = 0; i < finalResult.size(); i++) {
+            String currBiInstr = finalResult.get(i);
+            // int currDecInstr = ;
+            // String tempHex = Integer.toHexString(Integer.parseInt(currBiInstr,2));
+            // String tempDec = Integer.toString(Integer.parseInt(currBiInstr,2));
+            // String leStr = "(address " + i + "):" + currBiInstr + " (Dec:" +  tempDec +")(Hex:" + tempHex + ")";
+            String leStr =  "(address " + i + "):" + currBiInstr;
+            bw.write(leStr);
+            bw.newLine();
+        }
+        bw.close();
     }
 
     /** Taken a line of assembly and break it down into tokens.
