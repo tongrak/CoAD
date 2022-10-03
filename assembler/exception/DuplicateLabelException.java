@@ -1,4 +1,4 @@
-package assembler;
+package assembler.exception;
 
 public class DuplicateLabelException extends Exception {
     public DuplicateLabelException(String message) {

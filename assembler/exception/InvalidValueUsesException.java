@@ -1,4 +1,4 @@
-package assembler;
+package assembler.exception;
 
 public class InvalidValueUsesException extends Exception {
 
