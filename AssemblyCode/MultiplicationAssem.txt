@@ -2,13 +2,12 @@
         lw      0   3  	mplier  set x3 = 10383
         lw 	0   4   uno	set x4 = 1 
 	lw 	0   7	last	set x7 = 2^30
-	add	5   0   4	what is this for
 again   nand    6   3  	4       set x6 = nand(x3,x4)
         nand    6   6   6       set x6 = nand(x6,x6)
         beg     6   0   not1    if x6 = 0 jumpTo not1
         add     1   1  	2       set x1 += x2 for result
 not1    add     4   4   4       shift x4 left
-        add     1   1  	1       shift x1 left
+        add     2   2  	2       shift x2 left
         beg     4   7   exit    if x4 = x7 exit
         beg    	0   0   again
 exit    noop
