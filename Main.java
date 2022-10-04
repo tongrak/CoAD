@@ -17,6 +17,10 @@ public class Main {
     computer = new Computer();
   }
 
+  private void printState(){
+
+  }
+
   public void runProgram(){
     initial();
     assembler.interpretAndSave(fileDst, computer);
