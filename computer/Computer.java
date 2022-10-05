@@ -86,5 +86,15 @@ public class Computer implements ComputerInt{
         return mem.size();
     }
 
+	@Override
+	public int getNumPrintLoop() {
+		return numPrintLoop;
+	}
+
+	@Override
+	public void setNumPrintLoop(int num) {
+        numPrintLoop = num;
+	}
+
 
 }

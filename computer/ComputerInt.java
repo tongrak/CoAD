@@ -10,6 +10,7 @@ public interface ComputerInt {
     public int getPC();
     public Boolean getEnd();
     public int getMemLen();
+    public int getNumPrintLoop();
 
     //set method
     public void setMem(int index, String binaryCode);
@@ -17,4 +18,5 @@ public interface ComputerInt {
     public void setPC(int index);
     public void setEnd(Boolean boolVal);
     public void addMem(String binaryCode);
+    public void setNumPrintLoop(int num);
 }
