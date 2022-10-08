@@ -7,7 +7,8 @@ public class Computer implements ComputerInt{
     private int PC = 0;
     private ArrayList<String> mem;
     private String[] reg;
-    private Integer numPrintLoop = 10;
+    private int numPrintLoop = 10;
+    private int stackAddress = 0;
 
     public Computer(){
         mem = new ArrayList<String>();
