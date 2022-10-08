@@ -51,6 +51,7 @@ public class Assembler implements AssemblerInt {
         try {
             readFileNTokenize();
             labelFindiNRemove();
+            System.out.println(fileAddress);
             removeComment();
             convertSymbolic();
             offsetAndValChecking();
@@ -97,10 +98,10 @@ public class Assembler implements AssemblerInt {
         for (int i = 0; i < finalResult.size(); i++) {
             String currBiInstr = finalResult.get(i);
             // int currDecInstr = ;
-            // String tempHex = Integer.toHexString(Integer.parseInt(currBiInstr,2));
-            // String tempDec = Integer.toString(Integer.parseInt(currBiInstr,2));
-            // String leStr = "(address " + i + "):" + currBiInstr + " (Dec:" +  tempDec +")(Hex:" + tempHex + ")";
-            String leStr =  "(address " + i + "):" + currBiInstr;
+            String tempHex = Integer.toHexString(Integer.parseUnsignedInt(currBiInstr,2));
+            String tempDec = Integer.toString(Integer.parseUnsignedInt(currBiInstr,2));
+            String leStr = "(address " + i + "):"  +  tempDec +"(Hex:0x" + tempHex + ")";
+            // String leStr =  "(address " + i + "):" + currBiInstr + "(Hex:" + tempHex + ")";
             bw.write(leStr);
             bw.newLine();
         }
