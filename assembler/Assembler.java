@@ -61,6 +61,7 @@ public class Assembler implements AssemblerInt {
             return;
         }
         settingToReturn(inObject);
+        setLoopNum(inObject);
         System.out.println("exist(0): Processd with caution");
     }
      
@@ -352,5 +353,8 @@ public class Assembler implements AssemblerInt {
         return val <= 65535 && val >= -65536;
     }
 
+    private void  setLoopNum(ComputerInt pc){
+        pc.setNumPrintLoop(finalResult.size());
+    }
 
 }
