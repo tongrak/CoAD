@@ -47,7 +47,7 @@ public class Assembler implements AssemblerInt {
     }
 
     public Assembler(){
-        
+
     }
 
     @Override
@@ -118,7 +118,7 @@ public class Assembler implements AssemblerInt {
      * 
      */
     private String[] tokenizing(String line){
-        return line.trim().split("\\s+");
+        return line.toLowerCase().trim().split("\\s+");
     }
 
     /** Checking if given string is valid instruction header or not
@@ -329,8 +329,8 @@ public class Assembler implements AssemblerInt {
      */
     private void settingToReturn(ComputerInt com){
         for (int i = 0; i < finalResult.size(); i++) {
-            // com.setMem(i, finalResult.get(i));
-            com.addMem(finalResult.get(i));
+            com.setMem(i, finalResult.get(i));
+            // com.addMem(finalResult.get(i));
         }
     }
 
@@ -364,7 +364,7 @@ public class Assembler implements AssemblerInt {
     }
 
     private Boolean isValidVal(int val){
-        return val <= 65535 && val >= -65536;
+        return val <= 2147483647 && val >= -2147483648;
     }
 
     private void  setLoopNum(ComputerInt pc){
