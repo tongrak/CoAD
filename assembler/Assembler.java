@@ -42,21 +42,29 @@ public class Assembler implements AssemblerInt {
     Map <String, Integer> labelMap = new HashMap<String, Integer>();
     List<String> finalResult = new ArrayList<String>();
 
+    /** Create Assembler object that assigned txt file path for intrepeted machine code.
+     * @param macCodeLoca
+     */
     public Assembler(String macCodeLoca) {
         macCodeFile = new File(macCodeLoca);
     }
 
+    /** Create Assembler object with default txt file path for intrepeted machine code.
+     */
     public Assembler(){
 
     }
 
+    /* (non-Javadoc)
+     * @see assembler.AssemblerInt#interpretAndSave(java.lang.String, computer.ComputerInt)
+     */
     @Override
     public void interpretAndSave(String fileAddress, ComputerInt inObject) {
         init(fileAddress);
         try {
             readFileNTokenize();
             labelFindiNRemove();
-            System.out.println(fileAddress);
+            // System.out.println(fileAddress);
             removeComment();
             convertSymbolic();
             offsetAndValChecking();
@@ -73,7 +81,6 @@ public class Assembler implements AssemblerInt {
      
     /** Initialize file and br variable for other uses
     *   @param fileaddress in form of String
-    *
     */
     private void init(String fileAddress){
         ap = new AssemblyParser();
@@ -88,7 +95,6 @@ public class Assembler implements AssemblerInt {
 
     /** Read every line in br then store, and tokenize it in tokenAssem.
      * @throws IOException
-     *
      */
     private void readFileNTokenize() throws IOException{
         String currLine;
@@ -98,6 +104,9 @@ public class Assembler implements AssemblerInt {
             }
     }
 
+    /** Write the intrepret machine code, in decimal and heximal form, to predetermined txt file.
+     * @throws IOException if said txt file doesn't existed.
+     */
     private void writeIntreResult() throws IOException{
         bw = new BufferedWriter(new FileWriter(macCodeFile));
         for (int i = 0; i < finalResult.size(); i++) {
@@ -115,25 +124,21 @@ public class Assembler implements AssemblerInt {
 
     /** Taken a line of assembly and break it down into tokens.
      *  @param line of string wish tobe tokenize with space as spliter
-     * 
      */
     private String[] tokenizing(String line){
         return line.toLowerCase().trim().split("\\s+");
     }
 
     /** Checking if given string is valid instruction header or not
-     * 
-     * 
      */
     private Boolean isInstr(String str){
         for (String key : reservedKey) {if (str.equals(key)) return true;}
         return false;
     }
 
-    /** Check if the given string is valid X-type instruction or not
-     * 
+    /** Check if the given string is valid instruction according to given reserve key word.
      * @param keys a predetermined set of key.
-     * @param str
+     * @param str String in question
      * @return if given key is valid X-type format or not
      */
     private Boolean isXTypeInstr(String[] keys,String str){
@@ -141,10 +146,9 @@ public class Assembler implements AssemblerInt {
         return false;
     }
 
-    /** Return a single string represent a type of give instruction
-     * 
-     * @param str
-     * @return
+    /** Return a char represent a type of give instruction header
+     * @param str String header in question
+     * @return a single char like R for add. will return NULL if given can't be classify.
      */
     private String getInstrType(String str){
         if(isXTypeInstr(instrRTypeKey, str)) return "R";
@@ -155,10 +159,9 @@ public class Assembler implements AssemblerInt {
         else return "NULL";
     }
 
-    /**returning true id given str is lavid label
-     * 
-     * @param str
-     * @return is Given String is valid label
+    /**returning true if given str is valid label
+     * @param str String in question
+     * @return is Given String consider valid label
      */
     private Boolean isValidLabel(String str){
         Boolean firstCharCheck = !stringIsNum(String.valueOf(str.charAt(0)));
@@ -166,9 +169,9 @@ public class Assembler implements AssemblerInt {
         return !isInstr(str) && (str.chars().count() <= 6) && firstCharCheck && !containSpecial;
     }
 
-    /**
-     * @param str
-     * @return
+    /** Check if given string consisting of special charector 
+     * @param str String in question
+     * @return true given string consisting of special charector
      */
     private Boolean stringContainSpecial(String str){
         String specialCharactersString = "!@#$%&*()'+,-./:;<=>?[]^_`{|}";
@@ -180,7 +183,6 @@ public class Assembler implements AssemblerInt {
     }
 
     /**go throught tokenAssem and look for label. if label found add into labelMap.
-     * 
      * @throws DuplicateLabelException
      * @throws InvalidLabelException
      */
@@ -198,7 +200,6 @@ public class Assembler implements AssemblerInt {
     }
 
     /**remove first Token in given Tokens
-     * 
      * @param tokens
      */
     private void removeLabel(String[] tokens){
@@ -206,7 +207,6 @@ public class Assembler implements AssemblerInt {
     }
 
     /**remove other element in tokens except instruction and its fields
-     * 
      * @param tokens
      * @param fieldCount
      * @return
@@ -220,8 +220,7 @@ public class Assembler implements AssemblerInt {
             return result.toArray(new String[fieldCount+1]);
     }
 
-    /** Remove comment in every instructions 
-     * 
+    /** Remove comment in every instructions
      * @throws InvalidInstructionException
      */
     private void removeComment() throws InvalidInstructionException{
@@ -259,9 +258,8 @@ public class Assembler implements AssemblerInt {
     }
 
     /** Check if given string can be number or not.
-     * 
-     * @param str
-     * @return
+     * @param str String in question
+     * @return True if given string is number
      */
     private Boolean stringIsNum(String str){
         try{
@@ -273,12 +271,15 @@ public class Assembler implements AssemblerInt {
         }
     }
 
+    /** Converting given string to number
+     * @param str String in question
+     * @return Integer of given String
+     */
     private int stringToNum(String str){
         return Integer.parseInt(str);
     }
 
-    /** Convert all symbolic for it value
-     * 
+    /** Find and Convert all symbolic for it proper value
      * @throws UnknownLabelException
      */
     private void convertSymbolic() throws UnknownLabelException{
@@ -314,8 +315,7 @@ public class Assembler implements AssemblerInt {
         tokenAssem = newTokensAssem;
     }
 
-    /** Turning all tokens in to final binary string.
-     * 
+    /** Turning all tokens in to binary string according to project spec.
      */
     private void gettingBiStringConv(){
         for (String[] Tokens : tokenAssem) {
@@ -324,7 +324,6 @@ public class Assembler implements AssemblerInt {
     }
 
     /** Storing every processed binary string into Computer obj.
-     * 
      * @param com
      */
     private void settingToReturn(ComputerInt com){
@@ -336,7 +335,6 @@ public class Assembler implements AssemblerInt {
 
     /** Checking if offsets from given assembly is valid or not
      * @throws InvalidValueUsesException
-     * 
      */
     private void offsetAndValChecking() throws InvalidValueUsesException{
         for (String[] tokens : tokenAssem) {
@@ -359,14 +357,25 @@ public class Assembler implements AssemblerInt {
         }
     }
 
+    /** Checking if given integer can be consider as valid offset or not.
+     * @param offset Integer in question
+     * @return True if given integer can be consider as valid offset
+     */
     private Boolean isValidOffSet(int offset){
         return offset <= 32767 && offset >= -32768;
     }
 
+    /** Checking if given integer can be consider as valid value signed 32 bit or not.
+     * @param val Integer in question
+     * @return True if given integer can be consider as valid value signed 32 bit
+     */
     private Boolean isValidVal(int val){
         return val <= 2147483647 && val >= -2147483648;
     }
 
+    /** Setting loop number for given computer object
+     * @param pc computer object in question
+     */
     private void  setLoopNum(ComputerInt pc){
         pc.setNumPrintLoop(finalResult.size());
     }
