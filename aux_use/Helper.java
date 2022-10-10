@@ -5,6 +5,10 @@ import java.lang.Math;
 public class Helper {
     public static int binToInt(String bin) {
         int res = 0;
+        if(bin.length() <= 3)
+        {
+            return Integer.parseInt(bin,2);
+        }
         String albin = ALU.two_complement(bin);
         String signBit = bin.substring(0,1);
         if(signBit.equals("1"))
@@ -24,10 +28,11 @@ public class Helper {
         return ALU.signExtend(res);
     }
     public static void main(String[] args) {
-        String a = "11111111111111111111111111111110";
+        String a = "01111111111111111111111111111111";
+        String b = "11111111111111111111111111111111";
         // System.out.println(a);
         // System.out.println(ALU.two_complement(a));
         // System.out.println(binToInt(ALU.two_complement(a)));
-        System.out.println(binToInt("010"));
+        System.out.println(binToInt("100"));
     }
 }
