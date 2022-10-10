@@ -28,6 +28,10 @@ public class AssemblyParser {
         return new_bin;
     }
 
+    /** Converting given set of token of string into binary string.
+     * @param Token
+     * @return binary string
+     */
     public String InstructionsTobin32(String[] Token){
         String bin_32 = new String();
         if(Token[0].equals("add")  || Token[0].equals("nand")) {
@@ -49,6 +53,10 @@ public class AssemblyParser {
     }
 
     ////////////////////////    R_Type    ///////////////////////////////
+    /** Converting checked tokens according to R format
+     * @param R_Token
+     * @return
+     */
     private String R_Type(String[] R_Token) {
         String binary = new String();
         String hexadecimal = new String();
@@ -99,6 +107,10 @@ public class AssemblyParser {
     }
 
     ////////////////////////    I_Type    ///////////////////////////////
+    /** Converting checked tokens according to I format
+     * @param R_Token
+     * @return
+     */
     private String I_Type(String[] I_Token) {
         String binary = new String();
         String hexadecimal = new String();
@@ -156,6 +168,10 @@ public class AssemblyParser {
     }
 
     ////////////////////////    J_Type    ///////////////////////////////
+    /** Converting checked tokens according to J format
+     * @param R_Token
+     * @return
+     */
     private String J_Type(String[] J_Token) {
         String binary = new String();
         String hexadecimal = new String();
@@ -198,6 +214,10 @@ public class AssemblyParser {
     }
    
     ////////////////////////    O_Type    ///////////////////////////////
+    /** Converting checked tokens according to O format
+     * @param R_Token
+     * @return
+     */
     private String O_Type(String[] O_Token) {
         String binary = new String();
         String hexadecimal = new String();
@@ -231,6 +251,10 @@ public class AssemblyParser {
     }
 
     ////////////////////////    fill    ///////////////////////////////
+    /** Converting checked tokens according to .fill
+     * @param R_Token
+     * @return
+     */
     private String fill(String[] fill_Token) {
         String binary = new String();
         String bit_0to27 = new String();
