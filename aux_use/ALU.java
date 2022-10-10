@@ -96,7 +96,7 @@ public class ALU {
         return res;
     }
 
-    private static String two_complement(String a) {
+    public static String two_complement(String a) {
         String res = add(not(a),"00000000000000000000000000000001");
         return res;
     }

@@ -9,9 +9,9 @@ import computer.ComputerInt;
 public class Machine {
     // private static ComputerInt com;
 
-    // public static void read_store(ComputerInt comRead) {
-    //     com = comRead;
-    // }
+    public static void read_store(ComputerInt comRead) {
+        // com = comRead;
+    }
 
     public static void Inst_compute(String inst,ComputerInt com) {
         String opcode = inst.substring(7, 10);
@@ -70,7 +70,7 @@ public class Machine {
         {
             if(ALU.operation(regA, regB, "compare").equals("1"))
             {
-                int offsetField = Helper.binToInt(offset);
+                int offsetField = Helper.binToInt(ALU.signExtend(offset));
                 com.setPC(com.getPC()+1+offsetField);
             }
             else
