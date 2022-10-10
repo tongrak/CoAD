@@ -1,20 +1,43 @@
 package computer;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Computer implements ComputerInt{
     private Boolean end = false;
     private int PC = 0;
-    private List<String> mem;
+    private ArrayList<String> mem;
     private String[] reg;
+    private int numPrintLoop = 10;
+    private int stackAddress = 0;
 
     public Computer(){
         mem = new ArrayList<String>();
+        reg = new String[8];
+        for(int i = 0; i < reg.length; i++){
+            reg[i] = "0";
+        }
+    }
+
+    public void printState(){
+        System.out.println("@@@");
+        System.out.println("state:");
+        System.out.println("        pc "+PC);
+        //print memory
+        System.out.println("        memory:");
+        for(int i = 0; i < numPrintLoop;i++){
+            System.out.println("                mem[ "+i+" ] "+mem.get(i));
+        }
+        //print register
+        System.out.println("        registers:");
+        for(int i = 0; i < reg.length;i++){
+            System.out.println("                reg[ "+i+" ] "+reg[i]);
+        }
+        System.out.println("end state");
     }
 
     @Override
     public String getMem(int index) {
+        // return mem[index];
         return mem.get(index);
     }
 
@@ -35,7 +58,8 @@ public class Computer implements ComputerInt{
 
     @Override
     public void setMem(int index, String binaryCode) {
-        mem.set(index, binaryCode);        
+        // mem[index] = binaryCode;
+        mem.set(index, binaryCode);
     }
 
     @Override
@@ -62,6 +86,16 @@ public class Computer implements ComputerInt{
     public int getMemLen() {
         return mem.size();
     }
+
+	@Override
+	public int getNumPrintLoop() {
+		return numPrintLoop;
+	}
+
+	@Override
+	public void setNumPrintLoop(int num) {
+        numPrintLoop = num;
+	}
 
 
 }

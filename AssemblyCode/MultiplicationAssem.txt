@@ -1,26 +1,17 @@
-        lw      0   10  mcand   set x10 = 32766
-        lw      0   11  mplier  set x11 = 10383
-        add     5   0   uno     set x5 = 1
-        add     7   0   uno     set x7 = 1
-        add     8   0   uno     set x8 = 1
-final   beq     8   0   twox11  if x8 == 0 jumpTo twox11
-        add     9   8   0       set x9 = x8
-        add     8   8   8       shift x8 left 
-        jalr    0   final
-twox11  nand    12  11  11      set x12 = nand(x11,x11)
-        add     12  12  7       set x12 += 1
-again   nand    6   11  5       set x6 = nand(x11,x5)
+        lw      0   2  	mcand   set x2 = 32766
+        lw      0   3  	mplier  set x3 = 10383
+        lw 	0   4   uno	set x4 = 1 
+	lw 	0   7	last	set x7 = 2^30
+again   nand    6   3  	4       set x6 = nand(x3,x4)
         nand    6   6   6       set x6 = nand(x6,x6)
         beg     6   0   not1    if x6 = 0 jumpTo not1
-        add     15  15  10      set x15 += x10 for result
-not1    add     5   5   5       shift x5 left
-        add     15  15  15      shift x15 left
-        add     13  12  5       set x13 = x5 - x11
-        nand    13  13  9       
-        nand    14  13  13      get bit 32 of x13 ?
-        beg     14  0   exit    
-        jalr    0   again
+        add     1   1  	2       set x1 += x2 for result
+not1    add     4   4   4       shift x4 left
+        add     2   2  	2       shift x2 left
+        beg     4   7   exit    if x4 = x7 exit
+        beg    	0   0   again
 exit    noop
 mcand   .fill   32766
 mplier  .fill   10383
 uno     .fill   1
+last	.fill	1073741824
