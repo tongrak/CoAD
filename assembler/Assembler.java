@@ -47,7 +47,7 @@ public class Assembler implements AssemblerInt {
     }
 
     public Assembler(){
-        
+
     }
 
     @Override
@@ -329,8 +329,8 @@ public class Assembler implements AssemblerInt {
      */
     private void settingToReturn(ComputerInt com){
         for (int i = 0; i < finalResult.size(); i++) {
-            // com.setMem(i, finalResult.get(i));
-            com.addMem(finalResult.get(i));
+            com.setMem(i, finalResult.get(i));
+            // com.addMem(finalResult.get(i));
         }
     }
 
