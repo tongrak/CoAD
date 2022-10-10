@@ -10,7 +10,7 @@ not1    add     4   4   4       shift x4 left
         add     2   2  	2       shift x2 left
         beq     4   7   exit    if x4 = x7 exit
         beq    	0   0   again
-exit    noop
+exit    halt
 mcand   .fill   32766
 mplier  .fill   10383
 uno     .fill   1

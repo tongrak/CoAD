@@ -7,7 +7,7 @@ public class Main {
   private Assembler assembler;
   private Machine machine;
   private Computer computer;
-  private String fileDst = "..//CoAD//AssemblyCode//TestingText.txt";
+  private String fileDst = "..//CoAD//AssemblyCode//MultiplicationAssem.txt";
   private String finalDest = "..//CoAD//MachineCode//CurrentMachineCode.txt";
 
   private void initial(){
