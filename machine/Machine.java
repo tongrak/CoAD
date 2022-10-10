@@ -7,27 +7,32 @@ import computer.ComputerInt;
 // import aux_use.ALU;
 
 public class Machine {
-    private static ComputerInt com;
+    // private static ComputerInt com;
 
-    public static void read_store(ComputerInt comRead) {
-        com = comRead;
-    }
+    // public static void read_store(ComputerInt comRead) {
+    //     com = comRead;
+    // }
 
-    public static void Inst_compute(String inst) {
+    public static void Inst_compute(String inst,ComputerInt com) {
         String opcode = inst.substring(7, 10);
         if (opcode.equals("000") || opcode.equals("001")) {
-            RType(inst, opcode);
+            RType(inst, opcode,com);
         } else if (opcode.equals("010") || opcode.equals("011") || opcode.equals("100")) {
-            IType(inst,opcode);
+            IType(inst,opcode,com);
+            if(opcode.equals("100"))
+                return;
         } else if (opcode.equals("101")) {
-            JType(inst, opcode);
+            JType(inst, opcode,com);
+            return;
         } else {
-            OType(inst, opcode);
+            OType(inst, opcode,com);
+            if(opcode.equals("110"))
+                return;
         }
-
+        com.setPC(com.getPC()+1);
     }
 
-    public static void RType(String instruction, String opcode) {
+    public static void RType(String instruction, String opcode,ComputerInt com) {
         String rs = instruction.substring(10, 13);
         String rt = instruction.substring(13, 16);
         String rd = instruction.substring(29, 32);
@@ -46,7 +51,7 @@ public class Machine {
         }
     }
 
-    public static void IType(String instruction,String opcode) {
+    public static void IType(String instruction,String opcode,ComputerInt com) {
         String rs = instruction.substring(10, 13);
         String rt = instruction.substring(13, 16);
         String offset = instruction.substring(16, 32);
@@ -71,7 +76,7 @@ public class Machine {
         }
     }
 
-    public static void JType(String instruction, String opcode) {
+    public static void JType(String instruction, String opcode,ComputerInt com) {
         String rs = instruction.substring(10, 13);
         String rt = instruction.substring(13, 16);
 
@@ -87,7 +92,7 @@ public class Machine {
         }
     }
 
-    public static void OType(String instruction, String opcode) {
+    public static void OType(String instruction, String opcode,ComputerInt com) {
 
         if (opcode.equals("110")) {
             com.setPC(com.getPC() + 1);
