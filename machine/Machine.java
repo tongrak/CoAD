@@ -73,6 +73,8 @@ public class Machine {
                 int offsetField = Helper.binToInt(offset);
                 com.setPC(com.getPC()+1+offsetField);
             }
+            else
+                com.setPC(com.getPC()+1);
         }
     }
 
