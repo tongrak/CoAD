@@ -7,7 +7,7 @@ public class Main {
   private Assembler assembler;
   private Machine machine;
   private Computer computer;
-  private String fileDst = ".\\AssemblyCode\\TestingText.txt";
+  private String fileDst = "..//CoAD//AssemblyCode//TestingText.txt";
 
   private void initial(){
     assembler = new Assembler();
@@ -22,6 +22,7 @@ public class Main {
     while(!computer.getEnd()){
       int pc = computer.getPC();
       String instr = computer.getMem(pc);
+      Machine.read_store(computer);
       Machine.Inst_compute(instr);
       computer.printState();
     }

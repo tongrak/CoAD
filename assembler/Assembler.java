@@ -26,7 +26,7 @@ import assembler.exception.UnknownLabelException;
 public class Assembler implements AssemblerInt {
 
     File file;
-    File macCodeFile = new File("C:\\Users\\DELL\\OneDrive - Chiang Mai University\\University File\\Year 65 (2022)\\1_65\\CPE304 [Sec001]\\Proj\\CoAD\\MachineCode\\CurrentMachineCode.txt");
+    File macCodeFile = new File("..//CoAD//MachineCode//CurrentMachineCode.txt");
     BufferedReader br;
     BufferedWriter bw;
     AssemblyParser ap;
