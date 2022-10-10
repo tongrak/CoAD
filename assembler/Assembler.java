@@ -118,7 +118,7 @@ public class Assembler implements AssemblerInt {
      * 
      */
     private String[] tokenizing(String line){
-        return line.trim().split("\\s+");
+        return line.toLowerCase().trim().split("\\s+");
     }
 
     /** Checking if given string is valid instruction header or not
@@ -364,7 +364,7 @@ public class Assembler implements AssemblerInt {
     }
 
     private Boolean isValidVal(int val){
-        return val <= 65535 && val >= -65536;
+        return val <= 2147483647 && val >= -2147483648;
     }
 
     private void  setLoopNum(ComputerInt pc){
