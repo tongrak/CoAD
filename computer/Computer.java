@@ -11,6 +11,7 @@ public class Computer implements ComputerInt{
     private int stackAddress = 0;
 
     public Computer(){
+        end = false;
         mem = new ArrayList<String>();
         reg = new String[8];
         for(int i = 0; i < reg.length; i++){

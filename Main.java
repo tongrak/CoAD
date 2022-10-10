@@ -8,9 +8,10 @@ public class Main {
   private Machine machine;
   private Computer computer;
   private String fileDst = "..//CoAD//AssemblyCode//TestingText.txt";
+  private String finalDest = "..//CoAD//MachineCode//CurrentMachineCode.txt";
 
   private void initial(){
-    assembler = new Assembler();
+    assembler = new Assembler(finalDest);
     // machine = new Machine();
     computer = new Computer();
   }
@@ -22,8 +23,7 @@ public class Main {
     while(!computer.getEnd()){
       int pc = computer.getPC();
       String instr = computer.getMem(pc);
-      Machine.read_store(computer);
-      Machine.Inst_compute(instr);
+      Machine.Inst_compute(instr, computer);
       computer.printState();
     }
   }
