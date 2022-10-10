@@ -42,7 +42,12 @@ public class Assembler implements AssemblerInt {
     Map <String, Integer> labelMap = new HashMap<String, Integer>();
     List<String> finalResult = new ArrayList<String>();
 
-    public Assembler() {
+    public Assembler(String macCodeLoca) {
+        macCodeFile = new File(macCodeLoca);
+    }
+
+    public Assembler(){
+        
     }
 
     @Override
@@ -113,7 +118,7 @@ public class Assembler implements AssemblerInt {
      * 
      */
     private String[] tokenizing(String line){
-        return line.toLowerCase().trim().split("\\s+");
+        return line.trim().split("\\s+");
     }
 
     /** Checking if given string is valid instruction header or not
@@ -278,13 +283,21 @@ public class Assembler implements AssemblerInt {
      */
     private void convertSymbolic() throws UnknownLabelException{
         List<String[]> newTokensAssem = new ArrayList<>();
-        for (String[] tokens : tokenAssem) {
+        for (int pc = 0; pc < tokenAssem.size(); pc++) {
+            String[] tokens = tokenAssem.get(pc);
             String instr = tokens[0];
             if (isXTypeInstr(instrITypeKey, instr)){
                 if (stringIsNum(tokens[3])) newTokensAssem.add(tokens);
                 else{
                     if(labelMap.containsKey(tokens[3])){
-                        String[] temp = {tokens[0],tokens[1],tokens[2],labelMap.get(tokens[3]).toString()};
+                        String sym;
+                        if(instr.equals("beq")){
+                            int rela = labelMap.get(tokens[3]) - pc - 1;
+                            sym = Integer.toString(rela);
+                        }else{
+                            sym = labelMap.get(tokens[3]).toString();
+                        }
+                        String[] temp = {tokens[0],tokens[1],tokens[2],sym};
                         newTokensAssem.add(temp);
                     }else throw new UnknownLabelException(tokens[3] + "is not a label");
                 }
