@@ -19,12 +19,17 @@ public class Machine {
             RType(inst, opcode,com);
         } else if (opcode.equals("010") || opcode.equals("011") || opcode.equals("100")) {
             IType(inst,opcode,com);
+            if(opcode.equals("100"))
+                return;
         } else if (opcode.equals("101")) {
             JType(inst, opcode,com);
+            return;
         } else {
             OType(inst, opcode,com);
+            if(opcode.equals("110"))
+                return;
         }
-
+        com.setPC(com.getPC()+1);
     }
 
     public static void RType(String instruction, String opcode,ComputerInt com) {
