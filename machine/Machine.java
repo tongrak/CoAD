@@ -57,7 +57,7 @@ public class Machine {
         String offset = instruction.substring(16, 32);
         String regA = com.getReg(Helper.binToInt(rs));
         String regB = com.getReg(Helper.binToInt(rt));
-        String loc = ALU.operation("add", regA, offset);
+        String loc = ALU.operation(regA, offset,"add");
         if(opcode.equals("010") && !rt.equals("000"))
         {
             com.setReg(Helper.binToInt(rt), com.getMem(Helper.binToInt(loc)));

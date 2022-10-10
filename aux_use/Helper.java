@@ -28,6 +28,6 @@ public class Helper {
         // System.out.println(a);
         // System.out.println(ALU.two_complement(a));
         // System.out.println(binToInt(ALU.two_complement(a)));
-        System.out.println(binToInt(a));
+        System.out.println(binToInt("010"));
     }
 }

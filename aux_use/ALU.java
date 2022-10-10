@@ -3,6 +3,8 @@ package aux_use;
 public class ALU {
     public static String operation(String a, String b, String op) {
         String res = "";
+        System.out.println(a);
+        System.out.println(b);
         String A = signExtend(a);
         String B = signExtend(b);
         if (op.equals("add"))
