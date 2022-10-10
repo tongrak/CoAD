@@ -17,6 +17,5 @@ public interface ComputerInt {
     public void setReg(int index, String binaryCode);
     public void setPC(int index);
     public void setEnd(Boolean boolVal);
-    public void addMem(String binaryCode);
     public void setNumPrintLoop(int num);
 }

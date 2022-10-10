@@ -5,14 +5,14 @@ import java.util.ArrayList;
 public class Computer implements ComputerInt{
     private Boolean end = false;
     private int PC = 0;
-    private ArrayList<String> mem;
+    private String[] mem;
     private String[] reg;
     private int numPrintLoop = 10;
     private int stackAddress = 0;
 
     public Computer(){
         end = false;
-        mem = new ArrayList<String>();
+        mem = new String[65536];
         reg = new String[8];
         for(int i = 0; i < reg.length; i++){
             reg[i] = "0";
@@ -26,7 +26,7 @@ public class Computer implements ComputerInt{
         //print memory
         System.out.println("        memory:");
         for(int i = 0; i < numPrintLoop;i++){
-            System.out.println("                mem[ "+i+" ] "+mem.get(i));
+            System.out.println("                mem[ "+i+" ] "+mem[i]);
         }
         //print register
         System.out.println("        registers:");
@@ -39,7 +39,7 @@ public class Computer implements ComputerInt{
     @Override
     public String getMem(int index) {
         // return mem[index];
-        return mem.get(index);
+        return mem[index];
     }
 
     @Override
@@ -60,12 +60,7 @@ public class Computer implements ComputerInt{
     @Override
     public void setMem(int index, String binaryCode) {
         // mem[index] = binaryCode;
-        mem.set(index, binaryCode);
-    }
-
-    @Override
-    public void addMem(String binaryCode){
-        mem.add(binaryCode);
+        mem[index] = binaryCode;
     }
 
     @Override
@@ -85,7 +80,7 @@ public class Computer implements ComputerInt{
 
     @Override
     public int getMemLen() {
-        return mem.size();
+        return mem.length;
     }
 
 	@Override
