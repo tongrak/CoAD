@@ -83,14 +83,13 @@ public class Machine {
         String rt = instruction.substring(13, 16);
 
         String regA = com.getReg(Helper.binToInt(rs));
-        String regB = com.getReg(Helper.binToInt(rt));
         int PC = com.getPC() + 1;
         com.setReg(Helper.binToInt(rt), Helper.IntTobin(PC));
 
-        if (regA.equals(regB)) {
+        if (rs.equals(rt)) {
             com.setPC(PC);
         } else {
-            com.setPC(Helper.binToInt(rs));
+            com.setPC(Helper.binToInt(regA));
         }
     }
 
