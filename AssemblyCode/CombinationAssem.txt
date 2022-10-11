@@ -1,41 +1,41 @@
-                lw      0       2       stackPointer    set x2 = 32767 (maximum value for 15 bit)
+                lw      0       2       stP             set x2 = 32767 (maximum value for 15 bit)
                 lw      0       3       n               set x3 = n
                 lw      0       4       r               set x4 = r
-                lw      0       5       combination     set x5 = 6 (combination address)
-                jalr    1       5                       go to combination function (jumpTo combination)
+                lw      0       5       combV           set x5 = 6 (combination addres)
+                jalr    5       1                       go to combination function (jumpTo combination)
                 beq     0       0       exit            end code
-combination     lw      0       6       Nthree          set x6 = -3
+                lw      0       6       Nthree          set x6 = -3
                 add     2       2       6               x2 = x2 - 3 (push stack down)
                 lw      0       6       Ptwo            set x6 = 2
-                sw      2       1       6               store value in x1 to memory address x2 + 2 (return address)
-                lw      0       6       P_one           set x6 = 1
-                sw      2       3       6               store value in x3 to memory address x2 + 1 (n)
-                sw      2       4       0               store value in x4 to memory address x2 + 0 (r)
-                beq     4       0       return1         if r = 0 jumpTo return1
-                beq     4       3       return1         if r = n jumpTo return1
+                sw      2       1       6               store value in x1 to memory addres x2 + 2 (return addres)
+                lw      0       6       Pone           set x6 = 1
+                sw      2       3       6               store value in x3 to memory addres x2 + 1 (n)
+                sw      2       4       0               store value in x4 to memory addres x2 + 0 (r)
+                beq     4       0       ret1            if r = 0 jumpTo ret1
+                beq     4       3       ret1            if r = n jumpTo ret1
                 lw      0       5       None            set x5 = -1
                 add     3       3       5               n = n - 1
-                lw      0       5       combination     set x5 = 6 (combination address)
-                jalr    1       5                       go to combination function (jumpTo combination)
+                lw      0       5       combV           set x5 = 6 (combination addres)
+                jalr    5       1                       go to combination function (jumpTo combination)
                 lw      0       5       None            set x5 = -1
                 add     4       3       5               r = r - 1
-                lw      0       5       combination     set x5 = 6 (combination address)
-                jalr    1       5                       go to combination function (jumpTo combination)
-                beq     0       0       return2         if r = n jumpTo return2
-return1         lw      0       5       Pone            set x5 = 1
+                lw      0       5       combV           set x5 = 6 (combination addres)
+                jalr    5       1                       go to combination function (jumpTo combination)
+                beq     0       0       ret2            if r = n jumpTo ret2
+ret1            lw      0       5       Pone            set x5 = 1
                 add     7       7       5               x7 = x7 + 1 (result)
-return2         lw      2       4       0               load value from memory address x2 + 0 to x4 (r)
-                lw      2       3       6               load value from memory address x2 + 1 to x3 (n)
+ret2            lw      2       4       0               load value from memory addres x2 + 0 to x4 (r)
+                lw      2       3       6               load value from memory addres x2 + 1 to x3 (n)
                 lw      0       6       Ptwo            set x6 = 2
-                lw      2       1       6               load value from memory address x2 + 2 to x1 (return address)
+                lw      2       1       6               load value from memory addres x2 + 2 to x1 (return addres)
                 lw      0       6       Pthree          set x6 = 3
                 add     2       2       6               x2 = x2 + 3 (push stack up)
                 jalr    0       1                       out from combination function
 exit            halt                                    
 n               .fill   5                               input n
 r               .fill   2                               input r
-stackPointer    .fill   32767                           maximum value for 15 bit
-combination     .fill   6                               combination function's address
+stP             .fill   32767                           maximum value for 15 bit
+combV           .fill   6                               combination function's addres
 Nthree          .fill   -3
 None            .fill   -1
 Pone            .fill   1
