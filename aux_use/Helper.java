@@ -4,7 +4,7 @@ import java.lang.Math;
 
 public class Helper {
     public static int binToInt(String bin) {
-        if(bin == "")
+        if(bin == "" || bin == " ")
             return 0;
         String signBit = bin.substring(0,1);
         String data = bin.substring(1,bin.length());
@@ -40,8 +40,8 @@ public class Helper {
         // System.out.println(ALU.two_complement(a));
         // System.out.println(binToInt(ALU.two_complement(a)));
         // System.out.println(Integer.parseInt("11"));
-        System.out.println(binToInt("01111111111111111111111111111111"));
-        System.out.println(binToInt("10000000000000000000000000000000"));
-        System.out.println(binToInt(""));
+        // System.out.println(binToInt("01111111111111111111111111111111"));
+        // System.out.println(binToInt("10000000000000000000000000000000"));
+        System.out.println(binToInt(" "));
     }
 }
