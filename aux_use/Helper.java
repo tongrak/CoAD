@@ -9,7 +9,7 @@ public class Helper {
         String signBit = bin.substring(0,1);
         String data = bin.substring(1,bin.length());
         if(bin.length() <= 3)
-            return Integer.parseInt(data,2);
+            return Integer.parseInt(bin,2);
         if(signBit.equals("0"))
         {
             return Integer.parseInt(data,2);
