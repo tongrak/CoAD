@@ -24,6 +24,8 @@ public class ALU {
     }
     public static String signExtend(String a)
     {
+        if(a == null)
+            return "00000000000000000000000000000000";
         int l = a.length();
         String res = a;
         if(a.charAt(0) == '0')
