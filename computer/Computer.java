@@ -37,7 +37,7 @@ public class Computer implements ComputerInt{
         }
         //print value in stack
         System.out.println("this is stack.");
-        for(int i = stackAddress; i < stackAddress+15; i++){
+        for(int i = stackAddress; i > stackAddress-15; i--){
             System.out.println("                mem[ "+i+" ] " + Helper.binToInt(mem[i]));
         }
         System.out.println("end state");
