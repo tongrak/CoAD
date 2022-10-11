@@ -19,13 +19,15 @@ public class Main {
   public void runProgram(){
     initial();
     assembler.interpretAndSave(fileDst, computer);
-
+    int count = 0;
     while(!computer.getEnd()){
       int pc = computer.getPC();
       String instr = computer.getMem(pc);
       Machine.Inst_compute(instr, computer);
       computer.printState();
+      count += 1;
     }
+    System.out.println("summary run: " + count);
   }
     public static void main(String[] args) {
       Main mainProgram = new Main();
