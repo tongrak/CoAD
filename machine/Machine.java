@@ -57,7 +57,7 @@ public class Machine {
         String offset = instruction.substring(16, 32);
         String regA = com.getReg(Helper.binToInt(rs));
         String regB = com.getReg(Helper.binToInt(rt));
-        String loc = ALU.operation(regA, ALU.signExtend(offset),"add");
+        String loc = ALU.operation(regA, offset,"add");
         if(opcode.equals("010") && !rt.equals("000"))
         {
             com.setReg(Helper.binToInt(rt), com.getMem(Helper.binToInt(loc)));
@@ -84,7 +84,8 @@ public class Machine {
 
         String regA = com.getReg(Helper.binToInt(rs));
         int PC = com.getPC() + 1;
-        com.setReg(Helper.binToInt(rt), Helper.IntTobin(PC));
+        if(!rt.equals("000"))
+            com.setReg(Helper.binToInt(rt), Helper.IntTobin(PC));
 
         if (rs.equals(rt)) {
             com.setPC(PC);
