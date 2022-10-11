@@ -4,7 +4,7 @@ import java.lang.Math;
 
 public class Helper {
     public static int binToInt(String bin) {
-        if(bin == "" || bin == " ")
+        if(bin == null)
             return 0;
         String signBit = bin.substring(0,1);
         String data = bin.substring(1,bin.length());
