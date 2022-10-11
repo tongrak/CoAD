@@ -10,15 +10,15 @@ public class Computer implements ComputerInt{
     private String[] mem;
     private String[] reg;
     private int numPrintLoop = 10;
-    private int stackAddress = 0;
+    private int stackAddress = 32767;
 
     public Computer(){
         end = false;
         mem = new String[65536];
         reg = new String[8];
-        for(int i = 0; i < reg.length; i++){
-            reg[i] = "0";
-        }
+        // for(int i = 0; i < reg.length; i++){
+        //     reg[i] = "0";
+        // }
     }
 
     public void printState(){
@@ -33,7 +33,12 @@ public class Computer implements ComputerInt{
         //print register
         System.out.println("        registers:");
         for(int i = 0; i < reg.length;i++){
-            System.out.println("                reg[ "+i+" ] "+Helper.binToInt(reg[i]));
+            System.out.println("                reg[ "+i+" ] " + Helper.binToInt(reg[i]));
+        }
+        //print value in stack
+        System.out.println("this is stack.");
+        for(int i = stackAddress; i < stackAddress+15; i++){
+            System.out.println("                mem[ "+i+" ] " + Helper.binToInt(mem[i]));
         }
         System.out.println("end state");
     }
