@@ -16,7 +16,7 @@ public class Helper {
         }
         else if(signBit.equals("1"))
         {
-            if(Integer.parseInt(data) == 0)
+            if(Integer.parseInt(data,2) == 0)
             {
                 return -Integer.parseInt(ALU.two_complement(data),2)-1;
             }
@@ -40,8 +40,8 @@ public class Helper {
         // System.out.println(ALU.two_complement(a));
         // System.out.println(binToInt(ALU.two_complement(a)));
         // System.out.println(Integer.parseInt("11"));
-        // System.out.println(binToInt("01111111111111111111111111111111"));
+        System.out.println(binToInt("11111111111111111111111111111110"));
         // System.out.println(binToInt("10000000000000000000000000000000"));
-        System.out.println(binToInt(" "));
+        // System.out.println(binToInt(" "));
     }
 }
