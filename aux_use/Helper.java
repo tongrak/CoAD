@@ -4,19 +4,25 @@ import java.lang.Math;
 
 public class Helper {
     public static int binToInt(String bin) {
-        int res = 0;
-        if(bin.length() <= 3)
-        {
-            return Integer.parseInt(bin,2);
-        }
-        String albin = ALU.two_complement(bin);
+        if(bin == "")
+            return 0;
         String signBit = bin.substring(0,1);
-        if(signBit.equals("1"))
+        String data = bin.substring(1,bin.length());
+        if(bin.length() <= 3)
+            return Integer.parseInt(data,2);
+        if(signBit.equals("0"))
         {
-            res = -Integer.parseInt(albin,2);
+            return Integer.parseInt(data,2);
         }
-        else res = Integer.parseInt(bin,2);
-        return res;
+        else if(signBit.equals("1"))
+        {
+            if(Integer.parseInt(data) == 0)
+            {
+                return -Integer.parseInt(ALU.two_complement(data),2)-1;
+            }
+            return -Integer.parseInt(ALU.two_complement(data),2);
+        }
+        return 0;
     }
 
     public static String IntTobin(int inT) {
@@ -33,6 +39,9 @@ public class Helper {
         // System.out.println(a);
         // System.out.println(ALU.two_complement(a));
         // System.out.println(binToInt(ALU.two_complement(a)));
-        System.out.println(binToInt("100"));
+        // System.out.println(Integer.parseInt("11"));
+        System.out.println(binToInt("01111111111111111111111111111111"));
+        System.out.println(binToInt("10000000000000000000000000000000"));
+        System.out.println(binToInt(""));
     }
 }
