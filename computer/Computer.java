@@ -2,6 +2,8 @@ package computer;
 
 import java.util.ArrayList;
 
+import aux_use.Helper;
+
 public class Computer implements ComputerInt{
     private Boolean end = false;
     private int PC = 0;
@@ -26,12 +28,12 @@ public class Computer implements ComputerInt{
         //print memory
         System.out.println("        memory:");
         for(int i = 0; i < numPrintLoop;i++){
-            System.out.println("                mem[ "+i+" ] "+mem[i]);
+            System.out.println("                mem[ "+i+" ] "+Helper.binToInt(mem[i]));
         }
         //print register
         System.out.println("        registers:");
         for(int i = 0; i < reg.length;i++){
-            System.out.println("                reg[ "+i+" ] "+reg[i]);
+            System.out.println("                reg[ "+i+" ] "+Helper.binToInt(reg[i]));
         }
         System.out.println("end state");
     }
