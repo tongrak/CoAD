@@ -1,8 +1,14 @@
 package computer;
 
+import java.io.BufferedWriter;
+import java.nio.Buffer;
 import java.util.List;
 
 public interface ComputerInt {
+
+    public void printMemory(BufferedWriter wr);
+    public void printState(BufferedWriter wr);
+    public void printSummaryState(BufferedWriter wr, int count);
     
     //get method
     public String getMem(int index);

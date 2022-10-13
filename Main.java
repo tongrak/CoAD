@@ -1,3 +1,8 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.FilterWriter;
+import java.io.IOException;
+
 import assembler.Assembler;
 import computer.Computer;
 import machine.Machine;
@@ -5,29 +10,50 @@ import machine.Machine;
 public class Main {
 
   private Assembler assembler;
-  private Machine machine;
   private Computer computer;
+  private FileWriter file;
+  private BufferedWriter writer;
+  private String outputDst = "..//CoAd//output.txt";
   private String fileDst = "..//CoAD//AssemblyCode//MultiplicationAssem.txt";
   private String finalDest = "..//CoAD//MachineCode//CurrentMachineCode.txt";
 
-  private void initial(){
-    assembler = new Assembler(finalDest);
-    // machine = new Machine();
-    computer = new Computer();
+  private void initial() {
+    try{
+      assembler = new Assembler(finalDest);
+      computer = new Computer();
+  
+      //for writer
+      file = new FileWriter(outputDst);
+      writer = new BufferedWriter(file);
+    }
+    catch(IOException e){
+      System.out.println("File location is not correct.");
+    }
   }
 
-  public void runProgram(){
-    initial();
-    assembler.interpretAndSave(fileDst, computer);
-    int count = 0;
-    while(!computer.getEnd()){
-      int pc = computer.getPC();
-      String instr = computer.getMem(pc);
-      Machine.Inst_compute(instr, computer);
-      computer.printState();
-      count += 1;
+  public void runProgram() {
+    try{
+      initial();
+      assembler.interpretAndSave(fileDst, computer);
+      int count = 0;
+      computer.printMemory(writer);
+      //do all instruction.
+      while(!computer.getEnd()){
+        int pc = computer.getPC();
+        String instr = computer.getMem(pc);
+        //show a state
+        computer.printState(writer);
+        //do a instruction
+        Machine.Inst_compute(instr, computer);
+        count += 1;
+      }
+      computer.printSummaryState(writer, count);
+      computer.printState(writer);
+      writer.close();
     }
-    System.out.println("summary run: " + count);
+    catch(IOException e){
+      System.out.println("Writer can't close because of something in runProgram()");
+    }
   }
     public static void main(String[] args) {
       Main mainProgram = new Main();

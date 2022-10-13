@@ -1,6 +1,7 @@
 package computer;
 
-import java.util.ArrayList;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 import aux_use.Helper;
 
@@ -9,38 +10,74 @@ public class Computer implements ComputerInt{
     private int PC = 0;
     private String[] mem;
     private String[] reg;
-    private int numPrintLoop = 10;
-    private int stackAddress = 32767;
+    private int numPrintLoop;
 
     public Computer(){
         end = false;
         mem = new String[65536];
         reg = new String[8];
-        // for(int i = 0; i < reg.length; i++){
-        //     reg[i] = "0";
-        // }
     }
 
-    public void printState(){
-        System.out.println("@@@");
-        System.out.println("state:");
-        System.out.println("        pc "+PC);
-        //print memory
-        System.out.println("        memory:");
-        for(int i = 0; i < numPrintLoop;i++){
-            System.out.println("                mem[ "+i+" ] "+Helper.binToInt(mem[i]));
+    @Override
+    public void printMemory(BufferedWriter wr){
+        try{
+            wr.newLine();
+            for(int i = 0;i < numPrintLoop; i++){
+                wr.write("memory[" + i + "]=" + Helper.binToInt(mem[i]));
+            wr.newLine();
+            }
+            wr.newLine();
         }
-        //print register
-        System.out.println("        registers:");
-        for(int i = 0; i < reg.length;i++){
-            System.out.println("                reg[ "+i+" ] " + Helper.binToInt(reg[i]));
+        catch(IOException e){
+            System.out.print("Can't show memory because of something.");
         }
-        //print value in stack
-        System.out.println("this is stack.");
-        for(int i = stackAddress; i > stackAddress-15; i--){
-            System.out.println("                mem[ "+i+" ] " + Helper.binToInt(mem[i]));
+    }
+
+    @Override
+    public void printState(BufferedWriter wr){
+        try{
+            wr.newLine();
+            wr.write("@@@");
+            wr.newLine();
+            wr.write("state:");
+            wr.newLine();
+            wr.write("        pc "+PC);
+            wr.newLine();
+            //print memory
+            wr.write("        memory:");
+            wr.newLine();
+            for(int i = 0; i < numPrintLoop;i++){
+                wr.write("                mem[ "+i+" ] "+Helper.binToInt(mem[i]));
+                wr.newLine();
+            }
+            //print register
+            wr.write("        registers:");
+            wr.newLine();
+            for(int i = 0; i < reg.length;i++){
+                wr.write("                reg[ "+i+" ] " + Helper.binToInt(reg[i]));
+                wr.newLine();
+            }
+            wr.write("end state");
+            wr.newLine();
         }
-        System.out.println("end state");
+        catch(IOException e){
+            System.out.println("not correct text");
+        }
+    }
+
+    @Override
+    public void printSummaryState(BufferedWriter wr, int count) {
+        try{
+            wr.write("machine halted");
+            wr.newLine();
+            wr.write("total of " + count + " instructions executed");
+            wr.newLine();
+            wr.write("final state of machine:");
+            wr.newLine();
+        }   
+        catch(IOException e){
+            System.out.println("Somthing wrong in printSummaryState");
+        }     
     }
 
     @Override
