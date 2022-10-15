@@ -1,4 +1,6 @@
 package assembler;
+
+
 // * Storing Obj
 import computer.ComputerInt;
 // * IO obj/Function in Uses
@@ -21,27 +23,27 @@ import assembler.exception.InvalidLabelException;
 import assembler.exception.InvalidValueUsesException;
 import assembler.exception.UnknownLabelException;
 
-
-
 public class Assembler implements AssemblerInt {
 
+    // Variable in uses
     File file;
     File macCodeFile = new File("..//CoAD//MachineCode//CurrentMachineCode.txt");
     BufferedReader br;
     BufferedWriter bw;
     AssemblyParser ap;
-
+    // Reserved instruction header
     private String[] instrRTypeKey ={"add", "nand"};
     private String[] instrITypeKey ={"lw", "sw", "beq"};
     private String[] instrJTypeKey ={"jalr"};
     private String[] instrOTypeKey ={"halt", "noop"};
     private String[] specialKey ={".fill"};
     private String[] reservedKey = {"add", "nand", "lw", "sw", "beq", "jalr", "halt", "noop", ".fill"};
-
+    // Temporary data
     List<String[]> tokenAssem = new ArrayList<String[]>();
     Map <String, Integer> labelMap = new HashMap<String, Integer>();
     List<String> finalResult = new ArrayList<String>();
 
+    //===================== Constructor =====================// 
     /** Create Assembler object that assigned txt file path for intrepeted machine code.
      * @param macCodeLoca
      */
@@ -51,10 +53,9 @@ public class Assembler implements AssemblerInt {
 
     /** Create Assembler object with default txt file path for intrepeted machine code.
      */
-    public Assembler(){
+    public Assembler(){}
 
-    }
-
+    //===================== Public Function =====================//
     /* (non-Javadoc)
      * @see assembler.AssemblerInt#interpretAndSave(java.lang.String, computer.ComputerInt)
      */
@@ -64,7 +65,6 @@ public class Assembler implements AssemblerInt {
         try {
             readFileNTokenize();
             labelFindiNRemove();
-            // System.out.println(fileAddress);
             removeComment();
             convertSymbolic();
             offsetAndValChecking();
@@ -74,11 +74,14 @@ public class Assembler implements AssemblerInt {
             System.err.println("exit(1): " + e);
             return;
         }
+        // returning converted result
         settingToReturn(inObject);
         setLoopNum(inObject);
         System.out.println("exist(0): Processd with caution");
     }
      
+    //===================== Main Functions =====================//
+
     /** Initialize file and br variable for other uses
     *   @param fileaddress in form of String
     */
@@ -89,7 +92,6 @@ public class Assembler implements AssemblerInt {
             br = new BufferedReader(new FileReader(file));
         } catch (FileNotFoundException e) {
             System.out.println(fileAddress + " Text file not found");
-            // e.printStackTrace();
         }
     }
 
@@ -99,9 +101,130 @@ public class Assembler implements AssemblerInt {
     private void readFileNTokenize() throws IOException{
         String currLine;
             while ((currLine = br.readLine()) != null){
-                // System.out.println(currLine);
                 tokenAssem.add(tokenizing(currLine));
             }
+    }
+
+    /**go throught tokenAssem and look for label. if label found add into labelMap.
+     * @throws DuplicateLabelException
+     * @throws InvalidLabelException
+     */
+    private void labelFindiNRemove() throws DuplicateLabelException, InvalidLabelException{
+        int addressNum = 0;
+        for (String[] tokens : tokenAssem) {
+            if(isValidLabel(tokens[0])) {
+                if(!labelMap.containsKey(tokens[0])){
+                    labelMap.put(tokens[0], addressNum);
+                    removeLabel(tokens);
+                }else throw new DuplicateLabelException(tokens[0]+" is ready declare as label");
+            }else if(stringContainSpecial(tokens[0])) throw new InvalidLabelException(tokens[0]+" is not valid label");
+            addressNum++;
+        }
+    }
+
+    /** Remove comment in every instructions
+     * @throws InvalidInstructionException
+     */
+    private void removeComment() throws InvalidInstructionException{
+        List<String[]> newTokensAssem = new ArrayList<>();
+        for (String[] tokens : tokenAssem) {
+            String instr = tokens[0];
+            try {
+                switch (getInstrType(instr)) {
+                    case "R":
+                        newTokensAssem.add(removeEleFrom(tokens, 3));
+                        break;
+                    case "I":
+                        newTokensAssem.add(removeEleFrom(tokens, 3));
+                        break;
+                    case "J":
+                        newTokensAssem.add(removeEleFrom(tokens, 2));
+                        break;
+                    case "O":
+                        newTokensAssem.add(removeEleFrom(tokens, 0));
+                        break;
+                    case "S":
+                        newTokensAssem.add(removeEleFrom(tokens, 1));
+                        break;
+                    default:
+                        throw new InvalidInstructionException("Unknown Instruction: " + instr);
+                }
+            }catch (ArrayIndexOutOfBoundsException e) {
+                String line = "";
+                for (String str : tokens) {line+=(str+" ");}
+                throw new InvalidInstructionException("None enough field as required: " + line);
+            }
+            
+        }
+        tokenAssem = newTokensAssem;
+    }
+
+    /** Find and Convert all symbolic for it proper value
+     * @throws UnknownLabelException
+     */
+    private void convertSymbolic() throws UnknownLabelException{
+        List<String[]> newTokensAssem = new ArrayList<>();
+        for (int pc = 0; pc < tokenAssem.size(); pc++) {
+            String[] tokens = tokenAssem.get(pc);
+            String instr = tokens[0];
+            if (isXTypeInstr(instrITypeKey, instr)){
+                if (stringIsNum(tokens[3])) newTokensAssem.add(tokens);
+                else{
+                    if(labelMap.containsKey(tokens[3])){
+                        String sym;
+                        if(instr.equals("beq")){
+                            int rela = labelMap.get(tokens[3]) - pc - 1;
+                            sym = Integer.toString(rela);
+                        }else{
+                            sym = labelMap.get(tokens[3]).toString();
+                        }
+                        String[] temp = {tokens[0],tokens[1],tokens[2],sym};
+                        newTokensAssem.add(temp);
+                    }else throw new UnknownLabelException(tokens[3] + "is not a label");
+                }
+            }else if (isXTypeInstr(specialKey, instr)){
+                if (stringIsNum(tokens[1])) newTokensAssem.add(tokens);
+                else{
+                    if(labelMap.containsKey(tokens[1])){
+                        String[] temp = {tokens[0], labelMap.get(tokens[1]).toString()};
+                    newTokensAssem.add(temp);
+                    }else throw new UnknownLabelException(tokens[1] + "is not a label");
+                }
+            }else newTokensAssem.add(tokens);
+        }
+        tokenAssem = newTokensAssem;
+    }
+
+    /** Checking if offsets from given assembly is valid or not
+     * @throws InvalidValueUsesException
+     */
+    private void offsetAndValChecking() throws InvalidValueUsesException{
+        for (String[] tokens : tokenAssem) {
+            switch (getInstrType(tokens[0])) {
+                case "I":
+                    String offStr = tokens[3];
+                    if (stringIsNum(offStr)){
+                        int offset = stringToNum(offStr);
+                        if(!isValidOffSet(offset))throw new InvalidValueUsesException(offStr+" is not valid offset");
+                    }
+                    break;
+                case "S":
+                    String valStr = tokens[1];
+                    if (stringIsNum(valStr)){
+                        int val = stringToNum(valStr);
+                        if(!isValidVal(val))throw new InvalidValueUsesException(valStr+" is not valid value");
+                    }
+                    break;
+            }
+        }
+    }
+
+    /** Turning all tokens in to binary string according to project spec.
+     */
+    private void gettingBiStringConv(){
+        for (String[] Tokens : tokenAssem) {
+            finalResult.add(ap.InstructionsTobin32(Tokens));
+        }
     }
 
     /** Write the intrepret machine code, in decimal and heximal form, to predetermined txt file.
@@ -111,16 +234,32 @@ public class Assembler implements AssemblerInt {
         bw = new BufferedWriter(new FileWriter(macCodeFile));
         for (int i = 0; i < finalResult.size(); i++) {
             String currBiInstr = finalResult.get(i);
-            // int currDecInstr = ;
             String tempHex = Integer.toHexString(Integer.parseUnsignedInt(currBiInstr,2));
             String tempDec = Integer.toString(Integer.parseUnsignedInt(currBiInstr,2));
             String leStr = "(address " + i + "):"  +  tempDec +"(Hex:0x" + tempHex + ")";
-            // String leStr =  "(address " + i + "):" + currBiInstr + "(Hex:" + tempHex + ")";
             bw.write(leStr);
             bw.newLine();
         }
         bw.close();
     }
+
+    /** Storing every processed binary string into Computer obj.
+     * @param com
+     */
+    private void settingToReturn(ComputerInt com){
+        for (int i = 0; i < finalResult.size(); i++) {
+            com.setMem(i, finalResult.get(i));
+        }
+    }
+
+    /** Setting loop number for given computer object
+     * @param pc computer object in question
+     */
+    private void  setLoopNum(ComputerInt pc){
+        pc.setNumPrintLoop(finalResult.size());
+    }
+
+    //===================== Auxiliary Functions =====================//
 
     /** Taken a line of assembly and break it down into tokens.
      *  @param line of string wish tobe tokenize with space as spliter
@@ -182,23 +321,6 @@ public class Assembler implements AssemblerInt {
         return false;
     }
 
-    /**go throught tokenAssem and look for label. if label found add into labelMap.
-     * @throws DuplicateLabelException
-     * @throws InvalidLabelException
-     */
-    private void labelFindiNRemove() throws DuplicateLabelException, InvalidLabelException{
-        int addressNum = 0;
-        for (String[] tokens : tokenAssem) {
-            if(isValidLabel(tokens[0])) {
-                if(!labelMap.containsKey(tokens[0])){
-                    labelMap.put(tokens[0], addressNum);
-                    removeLabel(tokens);
-                }else throw new DuplicateLabelException(tokens[0]+" is ready declare as label");
-            }else if(stringContainSpecial(tokens[0])) throw new InvalidLabelException(tokens[0]+" is not valid label");
-            addressNum++;
-        }
-    }
-
     /**remove first Token in given Tokens
      * @param tokens
      */
@@ -218,43 +340,6 @@ public class Assembler implements AssemblerInt {
                 result.add(tokens[i]);
             }
             return result.toArray(new String[fieldCount+1]);
-    }
-
-    /** Remove comment in every instructions
-     * @throws InvalidInstructionException
-     */
-    private void removeComment() throws InvalidInstructionException{
-        List<String[]> newTokensAssem = new ArrayList<>();
-        for (String[] tokens : tokenAssem) {
-            String instr = tokens[0];
-            try {
-                switch (getInstrType(instr)) {
-                    case "R":
-                        newTokensAssem.add(removeEleFrom(tokens, 3));
-                        break;
-                    case "I":
-                        newTokensAssem.add(removeEleFrom(tokens, 3));
-                        break;
-                    case "J":
-                        newTokensAssem.add(removeEleFrom(tokens, 2));
-                        break;
-                    case "O":
-                        newTokensAssem.add(removeEleFrom(tokens, 0));
-                        break;
-                    case "S":
-                        newTokensAssem.add(removeEleFrom(tokens, 1));
-                        break;
-                    default:
-                        throw new InvalidInstructionException("Unknown Instruction: " + instr);
-                }
-            }catch (ArrayIndexOutOfBoundsException e) {
-                String line = "";
-                for (String str : tokens) {line+=(str+" ");}
-                throw new InvalidInstructionException("None enough field as required: " + line);
-            }
-            
-        }
-        tokenAssem = newTokensAssem;
     }
 
     /** Check if given string can be number or not.
@@ -279,84 +364,6 @@ public class Assembler implements AssemblerInt {
         return Integer.parseInt(str);
     }
 
-    /** Find and Convert all symbolic for it proper value
-     * @throws UnknownLabelException
-     */
-    private void convertSymbolic() throws UnknownLabelException{
-        List<String[]> newTokensAssem = new ArrayList<>();
-        for (int pc = 0; pc < tokenAssem.size(); pc++) {
-            String[] tokens = tokenAssem.get(pc);
-            String instr = tokens[0];
-            if (isXTypeInstr(instrITypeKey, instr)){
-                if (stringIsNum(tokens[3])) newTokensAssem.add(tokens);
-                else{
-                    if(labelMap.containsKey(tokens[3])){
-                        String sym;
-                        if(instr.equals("beq")){
-                            int rela = labelMap.get(tokens[3]) - pc - 1;
-                            sym = Integer.toString(rela);
-                        }else{
-                            sym = labelMap.get(tokens[3]).toString();
-                        }
-                        String[] temp = {tokens[0],tokens[1],tokens[2],sym};
-                        newTokensAssem.add(temp);
-                    }else throw new UnknownLabelException(tokens[3] + "is not a label");
-                }
-            }else if (isXTypeInstr(specialKey, instr)){
-                if (stringIsNum(tokens[1])) newTokensAssem.add(tokens);
-                else{
-                    if(labelMap.containsKey(tokens[1])){
-                        String[] temp = {tokens[0], labelMap.get(tokens[1]).toString()};
-                    newTokensAssem.add(temp);
-                    }else throw new UnknownLabelException(tokens[1] + "is not a label");
-                }
-            }else newTokensAssem.add(tokens);
-        }
-        tokenAssem = newTokensAssem;
-    }
-
-    /** Turning all tokens in to binary string according to project spec.
-     */
-    private void gettingBiStringConv(){
-        for (String[] Tokens : tokenAssem) {
-            finalResult.add(ap.InstructionsTobin32(Tokens));
-        }
-    }
-
-    /** Storing every processed binary string into Computer obj.
-     * @param com
-     */
-    private void settingToReturn(ComputerInt com){
-        for (int i = 0; i < finalResult.size(); i++) {
-            com.setMem(i, finalResult.get(i));
-            // com.addMem(finalResult.get(i));
-        }
-    }
-
-    /** Checking if offsets from given assembly is valid or not
-     * @throws InvalidValueUsesException
-     */
-    private void offsetAndValChecking() throws InvalidValueUsesException{
-        for (String[] tokens : tokenAssem) {
-            switch (getInstrType(tokens[0])) {
-                case "I":
-                    String offStr = tokens[3];
-                    if (stringIsNum(offStr)){
-                        int offset = stringToNum(offStr);
-                        if(!isValidOffSet(offset))throw new InvalidValueUsesException(offStr+" is not valid offset");
-                    }
-                    break;
-                case "S":
-                    String valStr = tokens[1];
-                    if (stringIsNum(valStr)){
-                        int val = stringToNum(valStr);
-                        if(!isValidVal(val))throw new InvalidValueUsesException(valStr+" is not valid value");
-                    }
-                    break;
-            }
-        }
-    }
-
     /** Checking if given integer can be consider as valid offset or not.
      * @param offset Integer in question
      * @return True if given integer can be consider as valid offset
@@ -371,13 +378,6 @@ public class Assembler implements AssemblerInt {
      */
     private Boolean isValidVal(int val){
         return val <= 2147483647 && val >= -2147483648;
-    }
-
-    /** Setting loop number for given computer object
-     * @param pc computer object in question
-     */
-    private void  setLoopNum(ComputerInt pc){
-        pc.setNumPrintLoop(finalResult.size());
     }
 
 }
