@@ -18,6 +18,10 @@ public class Computer implements ComputerInt{
         reg = new String[8];
     }
 
+    /**
+     * print all values in each memory.
+     * @param wr this argument use to write text into file.
+     */
     @Override
     public void printMemory(BufferedWriter wr){
         try{
@@ -33,6 +37,10 @@ public class Computer implements ComputerInt{
         }
     }
 
+    /**
+     * print a state.
+     * @param wr this argument use for write text into file.
+     */
     @Override
     public void printState(BufferedWriter wr){
         try{
@@ -65,6 +73,11 @@ public class Computer implements ComputerInt{
         }
     }
 
+    /**
+     * print summary amount of executed instructions if program normally.
+     * @param wr this argument use for write text into file.
+     * @param count amount of executed instructions.
+     */
     @Override
     public void printSummaryState(BufferedWriter wr, int count) {
         try{
@@ -80,58 +93,99 @@ public class Computer implements ComputerInt{
         }     
     }
 
+    /**
+     * get a value from specific memory.
+     * @param index use for specify memory.
+     */
     @Override
     public String getMem(int index) {
         // return mem[index];
         return mem[index];
     }
 
+    /**
+     * get a value from specific register.
+     * @param index use for specify register. 
+     */
     @Override
     public String getReg(int index) {
         return reg[index];
     }
 
+    /**
+     * get current Program Counter.
+     */
     @Override
     public int getPC() {
         return PC;
     }
 
+    /**
+     * get status of program to check is it end yet.
+     */
     @Override
     public Boolean getEnd() {
         return end;
     }
 
+    /**
+     * set a specific memory with value.
+     * @param index use for specify memory.
+     * @param binaryCode use as value to put in memory.
+     */
     @Override
     public void setMem(int index, String binaryCode) {
         // mem[index] = binaryCode;
         mem[index] = binaryCode;
     }
 
+    /**
+     * set a specific memory with value.
+     * @param index use for specify memory.
+     * @param binaryCode use as value to put in memory.
+     */
     @Override
     public void setReg(int index, String binaryCode) {
         reg[index] = binaryCode;
     }
 
+    /**
+     * set PC with a value
+     * @param index use as value.
+     */
     @Override
     public void setPC(int index) {
         PC = index;        
     }
 
+    /**
+     * set status of program.
+     * @param booVal is wanted status to set.
+     */
     @Override
     public void setEnd(Boolean boolVal) {
         end = boolVal;
     }
 
+    /**
+     * get size of memory.
+     */
     @Override
     public int getMemLen() {
         return mem.length;
     }
 
+    /**
+     * I will be back.
+     */
 	@Override
 	public int getNumPrintLoop() {
 		return numPrintLoop;
 	}
 
+    /**
+     * I will be back.
+     */
 	@Override
 	public void setNumPrintLoop(int num) {
         numPrintLoop = num;
