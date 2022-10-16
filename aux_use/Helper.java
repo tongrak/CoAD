@@ -3,6 +3,7 @@ package aux_use;
 import java.lang.Math;
 
 public class Helper {
+    // convert binary code to decimal
     public static int binToInt(String bin) {
         if(bin == null)
             return 0;
@@ -26,6 +27,7 @@ public class Helper {
         return 0;
     }
 
+    // convert decimal to binary code
     public static String IntTobin(int inT) {
         String res = Integer.toBinaryString(inT);
         if(res.length() < 32)

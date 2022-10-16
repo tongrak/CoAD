@@ -16,12 +16,14 @@ public class ALU {
         return res;
     }
 
+    // compare same return 1 else 0
     public static String compare(String a,String b)
     {
         if(a.equals(b))
             return "1";
         return "0";
     }
+    //extend to 32 bit
     public static String signExtend(String a)
     {
         if(a == null)
@@ -43,6 +45,7 @@ public class ALU {
         return res;
     }
 
+    // simple add binary 
     private static String add(String a, String b) {
         int carry = 0;
         String res = "";
@@ -74,13 +77,14 @@ public class ALU {
         }
         return res;
     }
-
+    // sub is add but b is negative
     private static String sub(String a, String b) {
         String nb = two_complement(b);
         String res = add(a,nb);
         return res;
     }
 
+    // simple nand
     private static String nand(String a,String b)
     {
         String res = "";
@@ -98,11 +102,12 @@ public class ALU {
         return res;
     }
 
+    // not+1
     public static String two_complement(String a) {
         String res = add(not(a),"00000000000000000000000000000001");
         return res;
     }
-
+    // simple not
     private static String not(String a) {
         String res = "";
         String b1 = String.valueOf('1');
