@@ -14,23 +14,23 @@
                 jalr    5       1                       go to sort function (jumpTo sort)
                 beq     0       0       exit            end code
                 lw      0       5       None            set x5 = -1  => {BBsort}
-                add     2       2       5               x2 = x2 - 1 (push stack down)
+                add     2       5       2               x2 = x2 - 1 (push stack down)
                 sw      2       1       0               store return address (x1) to stack
 loop1           lw      0       5       Pone            set x6 = 1 (i = 1)
-                add     6       6       5               x6 = x6 + 1 (i = i + 1)       
+                add     6       5       6               x6 = x6 + 1 (i = i + 1)       
                 lw      0       4       lenght          set x4 = lenght of array (n)     
                 beq     6       4       enloop          if x4 = x6 jumpTo endloop (i = n)
                 lw      0       4       None            set x4 = -1
-                add     7       6       4               set x7 = x6 - 1 (j = i - 1)
+                add     6       4       7               set x7 = x6 - 1 (j = i - 1)
 loop2           lw      0       4       None            set x4 = -1
                 beq     7       4       loop1           if x7 = -1 jumpTo loop1
                 lw      0       3       arrAdd          set x3 = 10000 address of array()
-                add     5       7       3               x5 = x7 + x3
+                add     7       3       5               x5 = x7 + x3
                 lw      5       3       0               load index at j to x3 (v[j])
                 lw      5       4       1               load index at j + 1 to x4 (v[j+1])
                 lw      0       5       Pone            set x5 = 1
                 nand    3       3       3               x3 = x3 nand x3 (two complement step 1)
-                add     3       3       5               x3 = x3 + 1 (two complement step 2)
+                add     3       5       3               x3 = x3 + 1 (two complement step 2)
                 add     3       4       3               x3 = x4 - x3
                 lw      0       5       last            set x5 = 2^30
                 add     5       5       5               shif left x5 (x5 = x5 * 2)
@@ -40,14 +40,14 @@ loop2           lw      0       4       None            set x4 = -1
                 lw      0       4       swap            set x4 = 34 (swap addres)
                 jalr    4       1                       go to swap function (jumpTo swap)
                 lw      0       4       None            set x4 = -1
-                add     7       7       4               x7 = x7 - 1 (j = j - 1)
+                add     7       4       7               x7 = x7 - 1 (j = j - 1)
                 beq     0       0       loop2           jumpTo loop2
 enloop          lw      2       1       0               load return address to x1
                 lw      0       4       Pone            set x4 = 1
-                add     2       2       4               x2 = x2 + 1 (push stack up)
+                add     2       4       2               x2 = x2 + 1 (push stack up)
                 jalr    1       0                       out from sort function
                 lw      0       3       arrAdd          set x3 = 10000 address of array() => {swap}
-                add     5       7       3               x5 = x7 + x3
+                add     7       3       5               x5 = x7 + x3
                 lw      5       3       0               load index at j to x3 (v[j])
                 lw      5       4       1               load index at j + 1 to x4 (v[j+1])
                 sw      5       3       1               store x3 to array index at j + 1 
@@ -59,7 +59,7 @@ exit            lw      0       7       arrAdd          set x7 = 10000 address o
                 lw      7       3       2               load value in array index[2] to x3
                 lw      7       4       3               load value in array index[3] to x4
                 lw      7       5       4               load value in array index[4] to x5
-                add     6       0       0               set x6 = 0
+                add     0       0       6               set x6 = 0
                 halt
 stP             .fill   32767                           maximum value for 15 bit
 arrAdd          .fill   10000                           address of array, defined: 10000
