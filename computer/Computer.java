@@ -176,7 +176,7 @@ public class Computer implements ComputerInt{
     }
 
     /**
-     * I will be back.
+     * get amount of memory that what to show on print state from 0 to n.
      */
 	@Override
 	public int getNumPrintLoop() {
@@ -184,7 +184,8 @@ public class Computer implements ComputerInt{
 	}
 
     /**
-     * I will be back.
+     * set amount of memory that what to show on print state from zero.
+     * @param num is specific amount of memory
      */
 	@Override
 	public void setNumPrintLoop(int num) {
