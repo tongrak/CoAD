@@ -29,8 +29,8 @@ ret2            lw      2       4       0               load value from memory a
                 add     2       6       2               x2 = x2 + 3 (push stack up)
                 jalr    1       0                       out from combination function
 exit            halt                                    
-n               .fill   5                               input n
-r               .fill   2                               input r
+n               .fill   7                               input n
+r               .fill   3                               input r
 stP             .fill   32767                           maximum value for 15 bit
 combV           .fill   6                               combination function's addres
 Nthree          .fill   -3
