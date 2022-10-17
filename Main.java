@@ -41,18 +41,20 @@ public class Main {
       while(!computer.getEnd()){
         int pc = computer.getPC();
         String instr = computer.getMem(pc);
-        //show a state
+        //show a state before execution.
         computer.printState(writer);
         //do a instruction
         Machine.Inst_compute(instr, computer);
         count += 1;
       }
       computer.printSummaryState(writer, count);
+
+      //show a state after finish program.
       computer.printState(writer);
       writer.close();
     }
     catch(IOException e){
-      System.out.println("Writer can't close because of something in runProgram()");
+      System.out.println("Writer can't close because of @variable writer in runProgram()");
     }
   }
     public static void main(String[] args) {
