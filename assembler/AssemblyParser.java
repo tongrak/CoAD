@@ -63,11 +63,11 @@ public class AssemblyParser {
         String rd, rs1, rs2;
 
         // get value from R_Token
-        rd = Integer.toBinaryString(Integer.parseInt(R_Token[1]));
+        rd = Integer.toBinaryString(Integer.parseInt(R_Token[3]));
         rd = String.format("%3s", rd).replaceAll(" ", "0");
-        rs2 = Integer.toBinaryString(Integer.parseInt(R_Token[3]));
+        rs2 = Integer.toBinaryString(Integer.parseInt(R_Token[2]));
         rs2 = String.format("%3s", rs2).replaceAll(" ", "0");
-        rs1 = Integer.toBinaryString(Integer.parseInt(R_Token[2]));
+        rs1 = Integer.toBinaryString(Integer.parseInt(R_Token[1]));
         rs1 = String.format("%3s", rs1).replaceAll(" ", "0");
 
         // set bit[31:25] to 0
