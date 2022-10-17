@@ -1,6 +1,5 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.FilterWriter;
 import java.io.IOException;
 
 import assembler.Assembler;
