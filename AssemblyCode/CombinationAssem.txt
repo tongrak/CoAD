@@ -28,7 +28,9 @@ ret2            lw      2       4       0               load value from memory a
                 lw      0       6       Pthree
                 add     2       6       2               x2 = x2 + 3 (push stack up)
                 jalr    1       0                       out from combination function
-exit            halt                                    
+exit            add     7       0       3               move result to x3
+                add     0       0       7               reset x7 = 0
+                halt                                    
 n               .fill   7                               input n
 r               .fill   3                               input r
 stP             .fill   32767                           maximum value for 15 bit
