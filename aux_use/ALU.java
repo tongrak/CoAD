@@ -112,6 +112,10 @@ public class ALU {
         return res;
     }
 
+    public static String validateNand(String a, String b){
+        return nand(a, b);
+    }
+
     // not+1
     public static String two_complement(String a) {
         String res = add(not(a),"00000000000000000000000000000001");
