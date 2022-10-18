@@ -1,0 +1,37 @@
+package CodeTesting;
+
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+import aux_use.ALU;
+
+public class ALUTest {
+    
+    //test add
+    @Test
+    public void testAdd(){
+        // (+,+) case
+        assertEquals(ALU.validateAdd("00000000000000000000000000000001", "00000000000000000000000000000010"), "00000000000000000000000000000011");
+        assertEquals(ALU.validateAdd("00000000000000000000000000000001", "00000000000000000000000000000011"), "00000000000000000000000000000100");
+
+        // (-,+) case
+        assertEquals(ALU.validateAdd("11111111111111111111111111011000", "00000000000000000000000000110010"), "00000000000000000000000000001010");
+        assertEquals(ALU.validateAdd("11111111111111111111111110011100", "00000000000000000000000000110010"), "11111111111111111111111111001110");
+
+        // (+,-) case
+        assertEquals(ALU.validateAdd("00000000000000000000000000011110", "11111111111111111111111111111101"), "00000000000000000000000000011011");
+
+        //(-,-) case
+        assertEquals(ALU.validateAdd("11111111111111111111111111111111", "11111111111111111111111111111101"), "11111111111111111111111111111100");
+    }
+
+    @Test
+    public void testSub(){
+        // (+,+) case
+        assertEquals(ALU.validateSub("00000000000000000000000001100100", "00000000000000000000000000001010"), "00000000000000000000000001011010");
+
+        // (-,+) case
+        assertEquals(ALU.validateSub("", ""), "");
+    }
+}

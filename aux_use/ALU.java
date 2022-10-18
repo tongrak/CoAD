@@ -77,11 +77,21 @@ public class ALU {
         }
         return res;
     }
+
+    //use for test add()
+    public static String validateAdd(String a, String b){
+        return add(a,b);
+    }
+    
     // sub is add but b is negative
     private static String sub(String a, String b) {
         String nb = two_complement(b);
         String res = add(a,nb);
         return res;
+    }
+
+    public static String validateSub(String a, String b){
+        return sub(a, b);
     }
 
     // simple nand
