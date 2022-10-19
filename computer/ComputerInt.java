@@ -1,8 +1,6 @@
 package computer;
 
 import java.io.BufferedWriter;
-import java.nio.Buffer;
-import java.util.List;
 
 public interface ComputerInt {
 

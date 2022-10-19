@@ -23,6 +23,7 @@ public class ALU {
             return "1";
         return "0";
     }
+
     //extend to 32 bit
     public static String signExtend(String a)
     {
@@ -77,11 +78,22 @@ public class ALU {
         }
         return res;
     }
+
+    //use for test add()
+    public static String validateAdd(String a, String b){
+        return add(a,b);
+    }
+    
     // sub is add but b is negative
     private static String sub(String a, String b) {
         String nb = two_complement(b);
         String res = add(a,nb);
         return res;
+    }
+
+    //use for test sub()
+    public static String validateSub(String a, String b){
+        return sub(a, b);
     }
 
     // simple nand
@@ -102,6 +114,11 @@ public class ALU {
         return res;
     }
 
+    //use for test nand()
+    public static String validateNand(String a, String b){
+        return nand(a, b);
+    }
+
     // not+1
     public static String two_complement(String a) {
         String res = add(not(a),"00000000000000000000000000000001");
@@ -120,6 +137,11 @@ public class ALU {
                 res = b1+res;
         }
         return res;
+    }
+
+    // use for test not()
+    public static String validateNot(String a){
+        return not(a);
     }
 
     public static void main(String[] args) {

@@ -63,12 +63,12 @@ public class AssemblyParser {
         String rd, rs1, rs2;
 
         // get value from R_Token
-        rd = Integer.toBinaryString(Integer.parseInt(R_Token[1]));
-        rd = String.format("%3s", rd).replaceAll(" ", "0");
-        rs2 = Integer.toBinaryString(Integer.parseInt(R_Token[3]));
-        rs2 = String.format("%3s", rs2).replaceAll(" ", "0");
-        rs1 = Integer.toBinaryString(Integer.parseInt(R_Token[2]));
+        rs1 = Integer.toBinaryString(Integer.parseInt(R_Token[1]));
         rs1 = String.format("%3s", rs1).replaceAll(" ", "0");
+        rs2 = Integer.toBinaryString(Integer.parseInt(R_Token[2]));
+        rs2 = String.format("%3s", rs2).replaceAll(" ", "0");
+        rd = Integer.toBinaryString(Integer.parseInt(R_Token[3]));
+        rd = String.format("%3s", rd).replaceAll(" ", "0");
 
         // set bit[31:25] to 0
         binary = String.format("%7s", binary).replaceAll(" ", "0");
@@ -85,10 +85,10 @@ public class AssemblyParser {
             }
         }
 
-        // set rs2 bit[21:19]
-        binary += rs2;
-        // set rs1 bit[18:15]
+        // set rs1 bit[21:19]
         binary += rs1;
+        // set rs2 bit[18:15]
+        binary += rs2;
         // set bit[15:3] to 0 
         binary += "0000000000000";
         // set rd bit[2:0]
@@ -108,7 +108,7 @@ public class AssemblyParser {
 
     ////////////////////////    I_Type    ///////////////////////////////
     /** Converting checked tokens according to I format
-     * @param R_Token
+     * @param I_Token
      * @return
      */
     private String I_Type(String[] I_Token) {
@@ -169,7 +169,7 @@ public class AssemblyParser {
 
     ////////////////////////    J_Type    ///////////////////////////////
     /** Converting checked tokens according to J format
-     * @param R_Token
+     * @param J_Token
      * @return
      */
     private String J_Type(String[] J_Token) {
@@ -215,7 +215,7 @@ public class AssemblyParser {
    
     ////////////////////////    O_Type    ///////////////////////////////
     /** Converting checked tokens according to O format
-     * @param R_Token
+     * @param O_Token
      * @return
      */
     private String O_Type(String[] O_Token) {
@@ -252,7 +252,7 @@ public class AssemblyParser {
 
     ////////////////////////    fill    ///////////////////////////////
     /** Converting checked tokens according to .fill
-     * @param R_Token
+     * @param fill_Token
      * @return
      */
     private String fill(String[] fill_Token) {
