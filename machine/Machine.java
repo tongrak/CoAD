@@ -7,11 +7,6 @@ import computer.ComputerInt;
 // import aux_use.ALU;
 
 public class Machine {
-    // private static ComputerInt com;
-
-    public static void read_store(ComputerInt comRead) {
-        // com = comRead;
-    }
 
     //input instruction code and choose operation from opcode
     public static void Inst_compute(String inst,ComputerInt com) {
