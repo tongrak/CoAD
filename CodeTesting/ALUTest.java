@@ -14,16 +14,24 @@ public class ALUTest {
         // (+,+) case
         assertEquals("00000000000000000000000000000011", ALU.validateAdd("00000000000000000000000000000001", "00000000000000000000000000000010"));
         assertEquals("00000000000000000000000000000100", ALU.validateAdd("00000000000000000000000000000001", "00000000000000000000000000000011"));
+        assertEquals("00000000000000000011000011110000", ALU.validateAdd("00000000000000000000100111001001", "00000000000000000010011100100111"));
+        assertEquals("00000000000000000001000101000101", ALU.validateAdd("00000000000000000000010001001101", "00000000000000000000110011111000"));
 
         // (-,+) case
         assertEquals("00000000000000000000000000001010", ALU.validateAdd("11111111111111111111111111011000", "00000000000000000000000000110010"));
         assertEquals("11111111111111111111111111001110", ALU.validateAdd("11111111111111111111111110011100", "00000000000000000000000000110010"));
+        assertEquals("00000000000000000001110010010111", ALU.validateAdd("11111111111111111100110001101101", "00000000000000000101000000101010"));
+        assertEquals("11111111111111111101011110001101", ALU.validateAdd("11111111111111111010001111111101", "00000000000000000011001110010000"));
 
         // (+,-) case
         assertEquals("00000000000000000000000000011011", ALU.validateAdd("00000000000000000000000000011110", "11111111111111111111111111111101"));
+        assertEquals("11111111111110110010101001000101", ALU.validateAdd("00000000000000111001011101011000", "11111111111101111001001011101101"));
+        assertEquals("00000000000001000101011100010111", ALU.validateAdd("00000000000010000110111001010000", "11111111111110111110100011000111"));
 
         //(-,-) case
         assertEquals("11111111111111111111111111111100", ALU.validateAdd("11111111111111111111111111111111", "11111111111111111111111111111101") );
+        assertEquals("11111111111101101011100001011001", ALU.validateAdd("11111111111110111011110011101000", "11111111111110101111101101110001"));
+        assertEquals("11111111111110101011010011011100", ALU.validateAdd("11111111111110110001000001100000", "11111111111111111010010001111100"));
     }
 
     @Test
@@ -32,26 +40,18 @@ public class ALUTest {
         assertEquals("00000000000000000000000001011010", ALU.validateSub("00000000000000000000000001100100", "00000000000000000000000000001010"));
         assertEquals("11111111111111111111111111101100", ALU.validateSub("00000000000000000000000000000000", "00000000000000000000000000010100"));
         // assertEquals("", ALU.validateSub("", "")); 
-        // assertEquals("", ALU.validateSub("", "")); 
-        // assertEquals("", ALU.validateSub("", "")); 
 
         // (-,+) case
         assertEquals("11111111111111111111111111011000", ALU.validateSub("11111111111111111111111111110110", "00000000000000000000000000011110"));
         assertEquals("11111111111111111111111101111110", ALU.validateSub("11111111111111111111111110110000", "00000000000000000000000000110010"));
-        // assertEquals("", ALU.validateSub("", "")); 
-        // assertEquals("", ALU.validateSub("", "")); 
         // assertEquals("", ALU.validateSub("", "")); 
 
         // (+,-) case
         assertEquals("00000000000000000000000001011010", ALU.validateSub("00000000000000000000000000101000", "11111111111111111111111111001110"));
         // assertEquals("", ALU.validateSub("", "")); 
         // assertEquals("", ALU.validateSub("", "")); 
-        // assertEquals("", ALU.validateSub("", "")); 
-        // assertEquals("", ALU.validateSub("", "")); 
 
         // (-,-) case
-        // assertEquals("", ALU.validateSub("", "")); 
-        // assertEquals("", ALU.validateSub("", "")); 
         // assertEquals("", ALU.validateSub("", "")); 
         // assertEquals("", ALU.validateSub("", "")); 
         // assertEquals("", ALU.validateSub("", "")); 
@@ -65,5 +65,40 @@ public class ALUTest {
         assertEquals("01110111", ALU.validateNand("11011011", "10001000"));
         assertEquals("11111111", ALU.validateNand("11100101", "00011010"));
         assertEquals("10001000", ALU.validateNand("11111111", "01110111"));
+    }
+
+    @Test
+    public void testNot(){
+        assertEquals("10101010", ALU.validateNot("01010101"));
+        assertEquals("01010110", ALU.validateNot("10101001"));
+        assertEquals("0101011001011100", ALU.validateNot("1010100110100011"));
+        assertEquals("1100010010100101", ALU.validateNot("0011101101011010"));
+        assertEquals("010111010101101011101001", ALU.validateNot("101000101010010100010110"));
+        assertEquals("011011010101101011010001", ALU.validateNot("100100101010010100101110"));
+        assertEquals("00101001011011011100010001010110", ALU.validateNot("11010110100100100011101110101001"));
+        assertEquals("10101100100110100010101101110010", ALU.validateNot("01010011011001011101010010001101"));
+    }
+
+    @Test
+    public void testCompare(){
+        //eqaul case
+        assertEquals("1", ALU.compare("11001001", "11001001"));
+        assertEquals("1", ALU.compare("00110110", "00110110"));
+        assertEquals("1", ALU.compare("1010100110100010", "1010100110100010"));
+        assertEquals("1", ALU.compare("0100110101101101", "0100110101101101"));
+        assertEquals("1", ALU.compare("101001011000110110010010", "101001011000110110010010"));
+        assertEquals("1", ALU.compare("000101100011101101111011", "000101100011101101111011"));
+        assertEquals("1", ALU.compare("11001001001110110110110110101001", "11001001001110110110110110101001"));
+        assertEquals("1", ALU.compare("01011010111011010001011011010001", "01011010111011010001011011010001"));
+
+        //no equal case
+        assertEquals("0", ALU.compare("11001001", "00110110"));
+        assertEquals("0", ALU.compare("01101011", "01101101"));
+        assertEquals("0", ALU.compare("1010100110100010", "0100110101101101"));
+        assertEquals("0", ALU.compare("0001101010100011", "1101011001001010"));
+        assertEquals("0", ALU.compare("101001011000110110010010", "000101100011101101111011"));
+        assertEquals("0", ALU.compare("000110101010010111010110", "010110010110101001011010"));
+        assertEquals("0", ALU.compare("11001001001110110110110110101001", "01011010111011010001011011010001"));
+        assertEquals("0", ALU.compare("00110101101010011001010101010101", "01011010111010100111010101101010"));
     }
 }

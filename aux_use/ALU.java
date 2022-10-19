@@ -23,6 +23,7 @@ public class ALU {
             return "1";
         return "0";
     }
+
     //extend to 32 bit
     public static String signExtend(String a)
     {
@@ -90,6 +91,7 @@ public class ALU {
         return res;
     }
 
+    //use for test sub()
     public static String validateSub(String a, String b){
         return sub(a, b);
     }
@@ -112,6 +114,7 @@ public class ALU {
         return res;
     }
 
+    //use for test nand()
     public static String validateNand(String a, String b){
         return nand(a, b);
     }
@@ -134,6 +137,11 @@ public class ALU {
                 res = b1+res;
         }
         return res;
+    }
+
+    // use for test not()
+    public static String validateNot(String a){
+        return not(a);
     }
 
     public static void main(String[] args) {
