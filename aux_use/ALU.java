@@ -143,13 +143,4 @@ public class ALU {
     public static String validateNot(String a){
         return not(a);
     }
-
-    public static void main(String[] args) {
-        String a = "010001";
-        String b = "10001";
-        System.out.println(operation(a, b, "add"));
-        System.out.println(Integer.toBinaryString(32767));
-        System.out.println(Helper.IntTobin(32767));
-        System.out.println(Helper.IntTobin(-32768));
-    }
 }

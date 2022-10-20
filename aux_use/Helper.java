@@ -36,19 +36,4 @@ public class Helper {
         }
         return ALU.signExtend(res);
     }
-    public static void main(String[] args) {
-        String a = "01111111111111111111111111111111";
-        String b = "11111111111111111111111111111111";
-        // System.out.println(a);
-        // System.out.println(ALU.two_complement(a));
-        // System.out.println(binToInt(ALU.two_complement(a)));
-        // System.out.println(Integer.parseInt("11"));
-        // System.out.println(binToInt("11111111111111111111111111111110"));
-        String test = IntTobin(-100);
-        System.out.println(test);
-        System.out.println(ALU.two_complement(test));
-        System.out.println(binToInt(test));
-        System.out.println(binToInt("10000000000000000000000000000001"));
-        // System.out.println(binToInt(" "));
-    }
 }
